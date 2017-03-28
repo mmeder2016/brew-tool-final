@@ -46,6 +46,8 @@ router.get('/brewtool', isLoggedIn, function(req, res) {
 module.exports = router;
 
 function isLoggedIn(req, res, next) {
+  console.log('isLoggedIn()');
+  console.log(req.user);
   if (req.isAuthenticated())
       return next();
   res.redirect('/');
