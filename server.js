@@ -7,6 +7,32 @@ var app = express();
 
 app.set('approot', __dirname);
 
+/* ************************************************************************ */
+/*
+    Ported in as part of the authentication code
+*/
+var path = require('path');
+
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+var flash = require('connect-flash');
+var session = require('express-session');
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+
+/*
+    End of authentication code port in
+*/
+/* ************************************************************************ */
+
 /*
     Body Parser - provides json-ized form data
 */
@@ -15,6 +41,26 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
+
+/* ************************************************************************ */
+/*
+    Ported in as part of the authentication code
+*/
+app.use(cookieParser());
+
+app.use(session({ secret: 'shhsecret', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+require('./config/passport')(passport);
+
+/*
+    End of authentication code port in
+*/
+/* ************************************************************************ */
+
 
 /*
     Allow CORS
