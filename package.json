@@ -10,6 +10,10 @@
     "build": "webpack",
     "buildw": "webpack -w"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmeder2016/brew-tool-final.git"
+  },
   "author": "Michael Meder, Jim Motyl",
   "license": "MIT",
   "dependencies": {
