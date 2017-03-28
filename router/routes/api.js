@@ -144,41 +144,19 @@ module.exports = function(app) {
         return '' + req.method + ' - ' + req.originalUrl;
     };
 
+    /* ******************************************************************** */
+    /*
+        POST /api/addrecipe - 
+    */
+    app.post('/api/addrecipe', function(req, res) {
+        console.log(getReqInfo(req));
+        addRecipe(req.body);
+    });
 
     /* ******************************************************************** */
     /*
-        POST /api/signup - 
+        addrecipe() - 
     */
-    app.post('/api/signup', function(req, res) {
-        console.log(getReqInfo(req));
-        if(res !== undefined) res.end();
-        res.send('<html lang="en"><head><title>HELLO WORLD - Test</title></head><body><h3>got POST /api/signup</h3></body></html>');
-    });
-
-    /*
-        POST /api/login - 
-    */
-    app.post('/api/login', function(req, res) {
-        console.log(getReqInfo(req));
-        if(res !== undefined) res.end();
-        res.send('<html lang="en"><head><title>HELLO WORLD - Test</title></head><body><h3>got POST /api/login</h3></body></html>');
-    });
-
-    /*
-        POST /api/register - 
-    */
-    app.post('/api/register', function(req, res) {
-        console.log(getReqInfo(req));
-        if(res !== undefined) res.end();
-        res.send('<html lang="en"><head><title>HELLO WORLD - Test</title></head><body><h3>got POST /api/register</h3></body></html>');
-    });
-
-    /*
-        POST /api/confirm - 
-    */
-    app.post('/api/confirm', function(req, res) {
-        console.log(getReqInfo(req));
-        if(res !== undefined) res.end();
-        res.send('<html lang="en"><head><title>HELLO WORLD - Test</title></head><body><h3>got POST /api/confirm</h3></body></html>');
-    });
+    function addrecipe() {
+    };
 };
