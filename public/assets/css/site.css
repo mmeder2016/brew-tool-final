@@ -1,0 +1,176 @@
+/* The following class will outline all 
+   containers, a debugging and learning tool - 
+
+* {
+    border: 1px solid red !important;
+    
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+*/
+
+
+.site-content {
+    margin-top: 60px;       /* Add a top margin to avoid content overlay */
+    margin-bottom: 30px;    /* Add a bottom margin to avoid content overlay */
+}
+
+.site-font {
+    font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+.unfloat {
+    float: none !important;
+}
+
+.row-centered {
+    text-align:center;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+}
+
+._center-block {
+    display: block;  
+    margin-right: auto;  
+    margin-left: auto;  
+}
+
+.calc-border {
+    border: 1px solid grey !important;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.center-static {
+    text-align: center;
+    margin: 0 auto;
+}
+
+/*
+    Style to fix the issue of text 
+    extending past panel length
+.panel-body a {
+    word-break:break-all
+}
+*/
+
+.panel-shadow {
+    -webkit-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+}
+
+.panel-body-content {
+    padding: 5px;
+    height: 200px;
+}
+
+.panel-content-scroll {
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.well-item {
+    margin-right: 10px;
+}
+
+/*
+    Fixed position navbar
+*/
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed;        /* Set the navbar to fixed position */
+    top: 0;                 /* Position the navbar at the top of the page */
+    width: 100%;            /* Full width */
+    z-index: 100;
+}
+
+.navbar-brand {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.navbar-toggle {
+    z-index: 3;
+}
+
+.img-aboutme{
+  max-width: 120px;
+  max-height: 120px;
+}
+
+.footer-fixed {
+    background-color: #ccc;
+    position: fixed;    /* Set the navbar to fixed position */
+    bottom: 0;          /* Position the navbar at the top of the page */
+    width: 100%;        /* Full width */
+    z-index: 100;
+}
+
+/* **************************
+
+*/
+.well-content
+{
+    border-color: #ccc;
+    background-color: #ccc;
+}
+
+.well-content-shadow {
+    -webkit-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+}
+
+.well-content-block {
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 10px;
+
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 3px;
+
+    border-radius: 5px 15px 15px 15px;
+    -moz-border-radius: 5px 15px 15px 15px;
+    -webkit-border-radius: 5px 15px 15px 15px;
+
+    border: 1px solid #000000;
+}
+
+.well-block-shadow {
+    -webkit-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 20px -10px rgba(0,0,0,0.75);
+}
+
+/* **************************
+
+*/
+.event-descr {
+    font-size: 85%;
+}
+
+.event-dates {
+    font-size: 75%;
+}
+
+.event-loc {
+    font-size: 65%;
+}
+
+.rescue-zip {
+    font-size: 75%;
+}
