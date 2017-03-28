@@ -1,0 +1,11 @@
+{
+    "development": {
+        "MONGODB_URI": "mongodb://localhost/brewtool_db"
+    },
+    "test": {
+        "MONGODB_URI": "mongodb://localhost/brewtool_db"
+    },
+    "production": {
+        "MONGODB_URI": ""
+    }
+}
