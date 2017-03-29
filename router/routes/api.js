@@ -152,34 +152,18 @@ module.exports = function(app) {
     app.post('/api/addrecipe', function(req, res) {
         //console.log(getReqInfo(req));
         console.log('app.post("/api/addrecipe", function(req, res) {');
-        recipe = new db.Recipe();
+        var recipe = new db.Recipe();
+
         recipe.save(function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
-                console.log(doc);
-                db.Recipe.findById(doc._id)
-                    .populate("hops")
-                    .populate("fermentables")
-                    .exec(function(error, doc) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log('Recipe added:' + doc);
-                            res.json(doc);
-                        }
-                    });
+                res.json(recipe);
             }
         });
     });
 
     /* ******************************************************************** */
-    /*
-        addrecipe() - 
-    */
-    function addrecipe() {
-
-    };
 
     /////////////////////////////////////////////////////////////
     ///////////////////////ROUTES////////////////////////////////
@@ -201,134 +185,78 @@ module.exports = function(app) {
             });
     });
 
-    app.post("/newHop", function(req, res) {
-        console.log('app.post("/newHop", function(req, res) {');
-        var hop = new db.Hop({ "name": req.body.name, "lbs": "0", "ozs": "0", "alphaAcid": "0", "minutes": "0" });
-        // Update recipe before and only add hop if it succeeds
-        hop.save(function(error, savedHop) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(savedHop);
-                hopId = savedHop._id;
-                db.Recipe.findByIdAndUpdate({ "_id": req.body.id }, { $push: { "hops": savedHop._id } }, { new: true }, function(err, doc) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        db.Recipe.findById(req.body.id)
-                            .populate("hops")
-                            .populate("fermentables")
-                            .exec(function(error, doc) {
-                                if (error) {
-                                    console.log(error);
-                                } else {
-                                    res.json(doc);
-                                }
-                            });
-                    }
-                });
-            }
-        });
-    });
-
-    app.delete("/deleteHop", function(req, res) {
-        console.log('app.delete("/deleteHop", function(req, res) {');
-        // Update the Recipe removing the hop
-        db.Recipe.findByIdAndUpdate(req.body.recipeId, { $pull: { 'hops': req.body.hopId } }, { new: true }, function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-                // Delete the hop from the hops database
-                db.Hop.findByIdAndRemove(req.body.hopId, function(error, hopdoc) {
-                    if (error) {
-                        console.log(error);
-                        res.send(error);
-                    } else {
-                        console.log("Deleted Hop:id:" + req.body.hopId);
-                        db.Recipe.findById(req.body.recipeId)
-                            .populate("hops")
-                            .populate("fermentables")
-                            .exec(function(error, doc) {
-                                if (error) {
-                                    console.log(error);
-                                } else {
-                                    console.log(doc);
-                                    res.json(doc);
-                                }
-                            });
-                    }
-                });
-            }
-        });
-    });
-
-    app.post("/newFermentable", function(req, res) {
-        console.log('app.post("/newFermentable", function(req, res) {');
-        var fermentable = new db.Fermentable({ "name": req.body.name, "lbs": "0", "ozs": "0" });
-        // Update recipe before and only add fermentable if it succeeds
-        fermentable.save(function(error, savedFermentable) {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log(savedFermentable);
-                fermentableId = savedFermentable._id;
-                db.Recipe.findByIdAndUpdate({ "_id": req.body.id }, { $push: { "fermentables": savedFermentable._id } }, { new: true }, function(err, doc) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        db.Recipe.findById(req.body.id)
-                            .populate("hops")
-                            .populate("fermentables")
-                            .exec(function(error, doc) {
-                                if (error) {
-                                    console.log(error);
-                                } else {
-                                    res.json(doc);
-                                }
-                            });
-                    }
-                });
-            }
-        });
-    });
-
-    app.delete("/deleteFermentable", function(req, res) {
-        console.log('app.delete("/deleteFermentable", function(req, res) {');
-        // Update the Recipe removing the fermentable
-        db.Recipe.findByIdAndUpdate(req.body.recipeId, { $pull: { 'fermentables': req.body.fermentableId } }, { new: true }, function(error, doc) {
-            if (error) {
-                console.log(error);
-            } else {
-
-                // Delete the fermentable from the fermentables database
-                db.Fermentable.findByIdAndRemove(req.body.fermentableId, function(error, fermentabledoc) {
-                    if (error) {
-                        console.log(error);
-                        res.send(error);
-                    } else {
-                        console.log("Deleted Fermentable:id:" + req.body.fermentableId);
-                        db.Recipe.findById(req.body.recipeId)
-                            .populate("hops")
-                            .populate("fermentables")
-                            .exec(function(error, doc) {
-                                if (error) {
-                                    console.log(error);
-                                } else {
-                                    res.json(doc);
-                                }
-                            });
-                    }
-                });
-            }
-        });
-    });
-
     app.post("/updateRecipe", function(req, res) {
         console.log('app.post("/updateRecipe", function(req, res) {');
-        var hopsPromises = req.body.recipe.hops.map(function(hmod) {
+        // We are assuming the recipe exists in the database
+
+        var newHops = [];
+        var newFermentables = [];
+        var existingHops = [];
+        var existingFermentables = [];
+
+        // Get a array of the new hops to add
+        // Get a array of the existing hops to update
+        req.body.recipe.hops.forEach(function(elem) {
+            if (elem._id.startsWith('FFFFFFFF')) {
+                //var hop = new db.Hop({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs, "alphaAcid": elem.alphaAcid, "minutes": elem.minutes });
+                newHops.push(elem);
+            } else {
+                existingHops.push(elem);
+            }
+        });
+        // Get a array of the new fermentabless to add
+        // Get a array of the existing fermentabless to update
+        req.body.recipe.fermentables.forEach(function(elem) {
+            if (elem._id.startsWith('FFFFFFFF')) {
+                //var fermentable = new db.Fermentable({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
+                newFermentables.push(elem);
+            } else {
+                existingFermentables.push(elem);
+            }
+        });
+
+        // if it is not an update but is a new ingredient, it must first complete 
+        // being inserted into the database before it can be added to the recipe.
+        var newHopsPromises = newHops.map(function(elem) {
+            var hop = new db.Hop({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs, "alphaAcid": elem.alphaAcid, "minutes": elem.minutes });
+            return hop.save(function(error, savedHop) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    hopId = savedHop._id;
+                    db.Recipe.findOneAndUpdate({ "_id": req.body.recipe._id }, { $push: { "hops": savedHop._id } }, { new: true }, function(err, newdoc) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('Added new hop to recipe');
+                        }
+                    });
+                }
+            });
+        });
+        var newFermentablesPromises = newFermentables.map(function(elem) {
+            var ferm = new db.Fermentable({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
+            return ferm.save(function(error, savedFermentable) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log(savedFermentable);
+                    fermentableId = savedFermentable._id;
+                    db.Recipe.findOneAndUpdate({ "_id": req.body.recipe._id }, { $push: { "fermentables": savedFermentable._id } }, { new: true }, function(err, newdoc) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log('Added new fermentable to recipe');
+                        }
+                    });
+                }
+            });
+        });
+
+        var updateHopsPromises = existingHops.map(function(hmod) {
             return db.Hop.findByIdAndUpdate(hmod._id, { name: hmod.name, lbs: hmod.lbs, ozs: hmod.ozs, alphaAcid: hmod.alphaAcid, minutes: hmod.minutes }).exec();
         });
-        var fermentablesPromises = req.body.recipe.fermentables.map(function(fmod) {
+        var updateFermentablesPromises = existingFermentables.map(function(fmod) {
             return db.Fermentable.findByIdAndUpdate(fmod._id, { name: fmod.name, lbs: fmod.lbs, ozs: fmod.ozs }).exec();
         });
         var recipePromise = db.Recipe.findByIdAndUpdate(req.body.recipe._id, {
@@ -346,8 +274,14 @@ module.exports = function(app) {
             finalGravity: req.body.recipe.finalGravity,
             fermentingComment: req.body.recipe.fermentingComment
         }).exec();
-        // Avter promises complete, get a copy of the new recipe object and return it
-        Promise.all([recipePromise].concat(hopsPromises, fermentablesPromises)).then(function() {
+
+        console.log('updateHopsPromises' + updateHopsPromises);
+        console.log('updateFermentablesPromises' + updateFermentablesPromises);
+        console.log('newHopsPromises' + newHopsPromises);
+        console.log('newFermentablesPromises' + newFermentablesPromises);
+
+        // After all promises complete, get a copy of the new recipe object and return it
+        Promise.all([recipePromise].concat(updateHopsPromises, updateFermentablesPromises, newHopsPromises, newFermentablesPromises)).then(function() {
             console.log('All promises complete.');
             db.Recipe.findById(req.body.recipe._id)
                 .populate("hops")

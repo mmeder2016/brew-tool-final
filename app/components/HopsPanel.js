@@ -25,7 +25,7 @@ var HopsPanel = React.createClass({
 
     addHop: function (data) {
         console.log('HopsPanel addNewHop : function () {');
-        this.props.addNewHop('Tettnanger');
+        this.props.addNewHop('');
     },
 
     deleteHop: function(id){
@@ -33,9 +33,9 @@ var HopsPanel = React.createClass({
         this.props.deleteHop(id);
     },
     
-    hopChange: function(pid, tid, val) {
+    hopChange: function(objId, varName, val) {
         console.log('HopsPanel hopChange : function () {');
-        this.props.hopChange(pid, tid, val);
+        this.props.hopChange(objId, varName, val);
     },
 
     render: function() {
@@ -51,7 +51,9 @@ var HopsPanel = React.createClass({
         // An error is thrown if the recipe is still undefined
         if(Array.isArray(this.props.hops)) {
             hopsMap = this.props.hops.map(function (hop) {
-                return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
+                if(('removed' in hop) === false) {
+                    return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
+                }
             });
         }
 

@@ -24,7 +24,7 @@ var FermentablesPanel = React.createClass({
 
     addFermentable: function (data) {
         console.log('FermentablesPanel addNewFermentable : function () {');
-        this.props.addNewFermentable('Vienna Malt');
+        this.props.addNewFermentable('');
     },
 
     deleteFermentable: function(id){

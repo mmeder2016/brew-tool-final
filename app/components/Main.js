@@ -16,46 +16,47 @@ var Main = React.createClass({
         };
     },
 
-    // data is the hop info to update recipe with 
     addNewHop: function(data) {
         console.log('Main addNewHop : function () {');
-        helper.addHop(data, this.state.recipe._id).then(function(response) {
-            //console.log(response);
-            this.setState({
-                recipe: response.data
-            });
-        }.bind(this));
+        var nstr = Date.now().toString()
+        var idStr = 'FFFFFFFFFFF' + nstr;
+        idStr = idStr.slice(idStr.length - 24, idStr.length);
+        this.state.recipe.hops.push({ _id: idStr, name: data, lbs: "", ozs: "", alphaAcid: "", minutes: "" });
+        this.forceUpdate();
     },
+
+    addNewFermentable: function(data) {
+        console.log('Main addNewFermentable : function () {');
+        var nstr = Date.now().toString()
+        var idStr = 'FFFFFFFFFFF' + nstr;
+        idStr = idStr.slice(idStr.length - 24, idStr.length);
+        this.state.recipe.fermentables.push({ _id: idStr, name: data, lbs: "", ozs: "" });
+        this.forceUpdate();
+    },
+
+
 
     deleteHop: function(hopId) {
         console.log('Main deleteHop : function () {');
-        helper.deleteHop(hopId, this.state.recipe._id).then(function(response) {
-            //console.log(response);
-            this.setState({
-                recipe: response.data
-            });
-        }.bind(this));
-    },
+        console.log(this.state.recipe);
+        // if it is not in the database
+        var i = 0;
+        for (i = 0; i < this.state.recipe.hops.length; i++) {
+            if (this.state.recipe.hops[i]._id === hopId) {
+                console.log('hopId:' + hopId);
+                console.log('id:' + this.state.recipe.hops[i]._id);
 
-    // data is the hop info to update recipe with 
-    addNewFermentable: function(data) {
-        console.log('Main addNewFermentable : function () {');
-        helper.addFermentable(data, this.state.recipe._id).then(function(response) {
-            //console.log(response);
-            this.setState({
-                recipe: response.data
-            });
-        }.bind(this));
-    },
+                if (hopId.startsWith('FFFFFFFF')) {
+                    console.log('afterdelete.')
+                    this.state.recipe.hops = this.state.recipe.hops.splice(i, 1);
+                    console.log(this.state.recipe);
+                } else {
+                    this.state.recipe.hops[i].removed = 'true';
+                }
+            }
+        }
+        this.forceUpdate();
 
-    deleteFermentable: function(fermentableId) {
-        console.log('Main deleteFermentable : function () {');
-        helper.deleteFermentable(fermentableId, this.state.recipe._id).then(function(response) {
-            //console.log(response);
-            this.setState({
-                recipe: response.data
-            });
-        }.bind(this));
     },
 
     getRecipe: function(recipeId) {
@@ -67,6 +68,7 @@ var Main = React.createClass({
             });
         }.bind(this));
     },
+
     saveRecipe: function() {
         console.log('Main saveRecipe : function () {');
         helper.updateRecipe(this.state.recipe).then(function(response) {
@@ -91,14 +93,14 @@ var Main = React.createClass({
         console.log('Main calculationChange : function () {');
         console.log('varName:' + varName + ' val:' + val);
 
-        if(varName === 'recipeName'){
+        if (varName === 'recipeName') {
             this.state.recipe.recipeName = val;
-        } else if(varName === 'brewDate'){
+        } else if (varName === 'brewDate') {
             this.state.recipe.brewDate = val;
-        } else if(varName === 'batchSize'){
+        } else if (varName === 'batchSize') {
             this.state.recipe.batchSize = val;
             // only the batchsize can change the calculations
-        } else if(varName === 'style'){
+        } else if (varName === 'style') {
             this.state.recipe.style = val;
         }
         // We can later add code to nnly update the CalculationsPanel
@@ -108,15 +110,15 @@ var Main = React.createClass({
 
     fermentableChange: function(fermObjId, varName, val) {
         console.log('Main fermentableChange : function () {');
-        for(var i = 0; i < this.state.recipe.fermentables.length; i++) {
+        for (var i = 0; i < this.state.recipe.fermentables.length; i++) {
             console.log('inloop:' + this.state.recipe.fermentables[i]._id)
-            if(this.state.recipe.fermentables[i]._id === fermObjId){
-                if(varName === 'ozs'){
+            if (this.state.recipe.fermentables[i]._id === fermObjId) {
+                if (varName === 'ozs') {
                     this.state.recipe.fermentables[i].ozs = val;
-                } else if(varName === 'lbs'){
+                } else if (varName === 'lbs') {
                     this.state.recipe.fermentables[i].lbs = val;
-                } else if(varName === 'name'){
-                    this.state.recipe.hops[i].name = val;
+                } else if (varName === 'name') {
+                    this.state.recipe.fermentables[i].name = val;
                 }
                 break;
             }
@@ -126,18 +128,18 @@ var Main = React.createClass({
 
     hopChange: function(hopObjId, varName, val) {
         console.log('Main hopChange : function () {');
-        for(var i = 0; i < this.state.recipe.hops.length; i++) {
+        for (var i = 0; i < this.state.recipe.hops.length; i++) {
             console.log('inloop:' + this.state.recipe.hops[i]._id)
-            if(this.state.recipe.hops[i]._id === hopObjId){
-                if(varName === 'ozs'){
+            if (this.state.recipe.hops[i]._id === hopObjId) {
+                if (varName === 'ozs') {
                     this.state.recipe.hops[i].ozs = val;
-                } else if(varName === 'lbs'){
+                } else if (varName === 'lbs') {
                     this.state.recipe.hops[i].lbs = val;
-                } else if(varName === 'minutes'){
+                } else if (varName === 'minutes') {
                     this.state.recipe.hops[i].minutes = val;
-                } else if(varName === 'alphaAcid'){
+                } else if (varName === 'alphaAcid') {
                     this.state.recipe.hops[i].alphaAcid = val;
-                } else if(varName === 'name'){
+                } else if (varName === 'name') {
                     this.state.recipe.hops[i].name = val;
                 }
                 break;
@@ -157,24 +159,47 @@ var Main = React.createClass({
     render: function() {
         console.log('Main render: function () {');
 
-        return ( 
-            <div className = "container-fluid" >
-                <div className = "row" >
-                    <div>
-                        <h1 className = "text-center" > Brew App </h1> 
-                        <br/>
-                        <div className = "text-center" >
-                        </div> 
-                    </div> 
-                </div> 
-                <hr/>
-                <button onClick = {this.getRecipe} className="btn btn-default" type="submit"> Get Recipe </button>
-                <button onClick = {this.saveRecipe} className="btn btn-default" type="submit"> Save Recipe </button> 
-                <button onClick = {this.newRecipe} className="btn btn-default" type="submit"> New Recipe </button>
-                <CalculationsPanel recipe = {this.state.recipe} calculationChange={this.calculationChange} ref="refCalcs"/> 
-                <HopsPanel hopChange={this.hopChange} addNewHop={this.addNewHop} deleteHop={this.deleteHop} hops={this.state.recipe.hops}/> 
-                <FermentablesPanel fermentableChange={this.fermentableChange} addNewFermentable={this.addNewFermentable} deleteFermentable={this.deleteFermentable} fermentables={this.state.recipe.fermentables}/> 
-            </div>
+        return ( <
+            div className = "container-fluid" >
+            <
+            div className = "row" >
+            <
+            div >
+            <
+            h1 className = "text-center" > Brew App < /h1>  <
+            br / >
+            <
+            div className = "text-center" >
+            <
+            /div>  <
+            /div>  <
+            /div>  <
+            hr / >
+            <
+            button onClick = { this.getRecipe }
+            className = "btn btn-default"
+            type = "submit" > Get Recipe < /button> <
+            button onClick = { this.saveRecipe }
+            className = "btn btn-default"
+            type = "submit" > Save Recipe < /button>  <
+            button onClick = { this.newRecipe }
+            className = "btn btn-default"
+            type = "submit" > New Recipe < /button> <
+            CalculationsPanel recipe = { this.state.recipe }
+            calculationChange = { this.calculationChange }
+            ref = "refCalcs" / >
+            <
+            HopsPanel hopChange = { this.hopChange }
+            addNewHop = { this.addNewHop }
+            deleteHop = { this.deleteHop }
+            hops = { this.state.recipe.hops }
+            />  <
+            FermentablesPanel fermentableChange = { this.fermentableChange }
+            addNewFermentable = { this.addNewFermentable }
+            deleteFermentable = { this.deleteFermentable }
+            fermentables = { this.state.recipe.fermentables }
+            />  <
+            /div>
         );
     },
 });
