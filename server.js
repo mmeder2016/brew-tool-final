@@ -13,7 +13,6 @@ app.set('approot', __dirname);
 */
 var path = require('path');
 
-var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 
