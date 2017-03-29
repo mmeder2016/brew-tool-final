@@ -30,10 +30,10 @@ module.exports = (app, db, approot) => {
         NOTE: If a favicon is desired then remove/comment
         out this code AND modify your HTML to provide an 
         icon OR send it from here (probably the easiest)
-    */
     app.get('/favicon.ico', function(req, res) {
         console.log('standard.js - favicon.ico request, responding with 204');
         res.status(204).send('/favicon.ico does not exist');
     });
+    */
 };
 

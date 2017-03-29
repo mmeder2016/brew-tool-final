@@ -15,6 +15,14 @@ const routes = [
 // Add access to the app, db object and application
 // root to each route
 module.exports = function router(app) {
+    /* ******************************************************************** */
+    /*
+        Ported in as part of the authentication code
+    */
+    var authRoutes = require('./routes/auth.js');
+    app.use('/', authRoutes);
+    /* ******************************************************************** */
+
     return routes.forEach((route) => {
         route(app);
     });

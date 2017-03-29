@@ -146,17 +146,34 @@ module.exports = function(app) {
 
     /* ******************************************************************** */
     /*
-        POST /api/addrecipe - 
+        POST /api/addrecipetest - 
+
+        NOTES: Regarding redirection if an API endpoint is accessed when 
+        there is no current and valid user - 
+
+        Cannot redirect after a post, will have to change the client so that 
+        it waits for the response. Then here we'll respond with this:
+
+            res.send({err: 0, redirectUrl: "/"});
+
     */
-    app.post('/api/addrecipe', function(req, res) {
-        console.log(getReqInfo(req));
-        addRecipe(req.body);
+    app.post('/api/addrecipetest', function(req, res) {
+        console.log('/api/addrecipetest');
+
+        if(req.user === undefined) {
+//            res.end();
+            res.redirect('/login');
+        } else {
+            console.log(req.user);
+            console.log(req.body);
+            console.log(getReqInfo(req));
+         }
     });
 
     /* ******************************************************************** */
     /*
         addrecipe() - 
     */
-    function addrecipe() {
+    function addRecipe() {
     };
 };

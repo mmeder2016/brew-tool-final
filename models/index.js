@@ -25,7 +25,7 @@ var db = {};
 db.Fermentable = require('./Fermentable.js');
 db.Hop = require('./Hop.js');
 db.Recipe = require('./Recipe.js');
-//db.User = require('./User.js');
+db.User = require('./User.js');
 
 
 // These are nice to have available elsewhere
