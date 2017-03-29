@@ -29,7 +29,7 @@ export default class Fermentables extends React.Component {
                 <div className="panel-body">
                     <div className="row">
                         <div className="col-md-12">
-                            <form>
+                            <form className="form-horizontal">
                                 <div className="form-group" id="ferment-select">
                                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                         <select className="form-control" onChange={this.handleChange}>
