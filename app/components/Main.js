@@ -34,29 +34,46 @@ var Main = React.createClass({
         this.forceUpdate();
     },
 
-
-
     deleteHop: function(hopId) {
         console.log('Main deleteHop : function () {');
-        console.log(this.state.recipe);
         // if it is not in the database
         var i = 0;
+        // untilwe find the hop we want to delete
         for (i = 0; i < this.state.recipe.hops.length; i++) {
             if (this.state.recipe.hops[i]._id === hopId) {
-                console.log('hopId:' + hopId);
-                console.log('id:' + this.state.recipe.hops[i]._id);
-
+                // hops already in database have _id ObjectIds
+                // hops only added locally have _id begin with F's
                 if (hopId.startsWith('FFFFFFFF')) {
-                    console.log('afterdelete.')
-                    this.state.recipe.hops = this.state.recipe.hops.splice(i, 1);
-                    console.log(this.state.recipe);
+                    this.state.recipe.hops.splice(i, 1);
                 } else {
                     this.state.recipe.hops[i].removed = 'true';
                 }
+                // hop has either been deleted or property removed added and set to true
+                break;
             }
         }
         this.forceUpdate();
+    },
 
+    deleteFermentable: function(fermentableId) {
+        console.log('Main deleteFermentable : function () {');
+        // if it is not in the database
+        var i = 0;
+        // until we find the fermentable we want to delete
+        for (i = 0; i < this.state.recipe.fermentables.length; i++) {
+            if (this.state.recipe.fermentables[i]._id === fermentableId) {
+                // fermentables already in database have _id ObjectIds
+                // fermentables only added locally have _id begin with F's
+                if (fermentableId.startsWith('FFFFFFFF')) {
+                    this.state.recipe.fermentables.splice(i, 1);
+                } else {
+                    this.state.recipe.fermentables[i].removed = 'true';
+                }
+                // fermentable has either been deleted or property removed added and set to true
+                break;
+            }
+        }
+        this.forceUpdate();
     },
 
     getRecipe: function(recipeId) {
@@ -159,47 +176,24 @@ var Main = React.createClass({
     render: function() {
         console.log('Main render: function () {');
 
-        return ( <
-            div className = "container-fluid" >
-            <
-            div className = "row" >
-            <
-            div >
-            <
-            h1 className = "text-center" > Brew App < /h1>  <
-            br / >
-            <
-            div className = "text-center" >
-            <
-            /div>  <
-            /div>  <
-            /div>  <
-            hr / >
-            <
-            button onClick = { this.getRecipe }
-            className = "btn btn-default"
-            type = "submit" > Get Recipe < /button> <
-            button onClick = { this.saveRecipe }
-            className = "btn btn-default"
-            type = "submit" > Save Recipe < /button>  <
-            button onClick = { this.newRecipe }
-            className = "btn btn-default"
-            type = "submit" > New Recipe < /button> <
-            CalculationsPanel recipe = { this.state.recipe }
-            calculationChange = { this.calculationChange }
-            ref = "refCalcs" / >
-            <
-            HopsPanel hopChange = { this.hopChange }
-            addNewHop = { this.addNewHop }
-            deleteHop = { this.deleteHop }
-            hops = { this.state.recipe.hops }
-            />  <
-            FermentablesPanel fermentableChange = { this.fermentableChange }
-            addNewFermentable = { this.addNewFermentable }
-            deleteFermentable = { this.deleteFermentable }
-            fermentables = { this.state.recipe.fermentables }
-            />  <
-            /div>
+        return ( 
+            <div className = "container-fluid" >
+                <div className = "row" >
+                    <div>
+                        <h1 className = "text-center" > Brew App </h1>  
+                            <br/>
+                            <div className = "text-center" >
+                            </div>
+                    </div>
+                </div>
+                <hr/>
+                <button onClick = { this.getRecipe } className = "btn btn-default" type = "submit" > Get Recipe </button>
+                <button onClick = { this.saveRecipe } className = "btn btn-default" type = "submit" > Save Recipe </button>
+                <button onClick = { this.newRecipe } className = "btn btn-default" type = "submit" > New Recipe </button>
+                <CalculationsPanel recipe = { this.state.recipe } calculationChange = { this.calculationChange } ref = "refCalcs" />
+                <HopsPanel hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
+                <FermentablesPanel fermentableChange = { this.fermentableChange } addNewFermentable = { this.addNewFermentable } deleteFermentable = { this.deleteFermentable } fermentables = { this.state.recipe.fermentables }/>
+            </div>
         );
     },
 });

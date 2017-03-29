@@ -185,6 +185,19 @@ module.exports = function(app) {
             });
     });
 
+    //     On an updatRecipe, the recipe data needs to be updated.
+    // FOR BOTH THE HOPS AND FERMETABLES THE FOLLOWING IS TRUE.
+    // 1.) If it is a new one to be added, the ObjectId begis with "FFFFFFFF"
+    //     This ObjectId will be replaced with a generated one during its 
+    //     addition to the database.
+    // 2.) If the hop/fermentable has a property named 'removed', it needs to
+    //     be removed from the recipe array and from the hop/fermentable
+    //     database
+    // 3.) If the hop/fermentable is not new and does nto have the property
+    //     'removed', then its data will be updated in the hop/fermentable 
+    //     database.
+    //     At the end after we wait for 7 promises, we will query the database
+    //     for the new populated recipe object and return it.
     app.post("/updateRecipe", function(req, res) {
         console.log('app.post("/updateRecipe", function(req, res) {');
         // We are assuming the recipe exists in the database
@@ -193,26 +206,70 @@ module.exports = function(app) {
         var newFermentables = [];
         var existingHops = [];
         var existingFermentables = [];
+        var hopsToRemove = [];
+        var fermentablesToRemove = [];
 
-        // Get a array of the new hops to add
-        // Get a array of the existing hops to update
+        // Get an array of the new hops to add
+        // Get an array of the existing hops to update
+        // Get an array of the existing hops to remove
         req.body.recipe.hops.forEach(function(elem) {
             if (elem._id.startsWith('FFFFFFFF')) {
-                //var hop = new db.Hop({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs, "alphaAcid": elem.alphaAcid, "minutes": elem.minutes });
                 newHops.push(elem);
+            } else if (('removed' in elem) === true) {
+                hopsToRemove.push(elem);
             } else {
                 existingHops.push(elem);
             }
         });
-        // Get a array of the new fermentabless to add
-        // Get a array of the existing fermentabless to update
+        // Get an array of the new fermentabless to add
+        // Get an array of the existing fermentabless to update
+        // Get an array of the existing fermentabless to remove
         req.body.recipe.fermentables.forEach(function(elem) {
             if (elem._id.startsWith('FFFFFFFF')) {
-                //var fermentable = new db.Fermentable({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
                 newFermentables.push(elem);
+            } else if (('removed' in elem) === true) {
+                fermentablesToRemove.push(elem);
             } else {
                 existingFermentables.push(elem);
             }
+        });
+
+        var deleteHopsPromises = hopsToRemove.map(function(elem) {
+            // Delete the hop from the recipe hops array
+            db.Recipe.findByIdAndUpdate(req.body.recipe._id, { $pull: { 'hops': elem._id } }, { new: true }, function(error, doc) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    // Delete the hop from the hops database
+                    db.Hop.findByIdAndRemove(elem._id , function(error, doc) {
+                        if (error) {
+                            console.log(error);
+                            res.send(error);
+                        } else {
+                            console.log("Deleted Hop:id:" + elem._id );
+                        }
+                    });
+                }
+            });
+        });
+
+        var deleteFermentablesPromises = fermentablesToRemove.map(function(elem) {
+            // Delete the fermentable from the recipe fermentables array
+            db.Recipe.findByIdAndUpdate(req.body.recipe._id, { $pull: { 'fermentables': elem._id } }, { new: true }, function(error, doc) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    // Delete the fermentable from the fermentables database
+                    db.Fermentable.findByIdAndRemove(elem._id , function(error, doc) {
+                        if (error) {
+                            console.log(error);
+                            res.send(error);
+                        } else {
+                            console.log("Deleted Fermentable:id:" + elem._id );
+                        }
+                    });
+                }
+            });
         });
 
         // if it is not an update but is a new ingredient, it must first complete 
@@ -234,9 +291,11 @@ module.exports = function(app) {
                 }
             });
         });
+        // if it is not an update but is a new ingredient, it must first complete 
+        // being inserted into the database before it can be added to the recipe.
         var newFermentablesPromises = newFermentables.map(function(elem) {
-            var ferm = new db.Fermentable({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
-            return ferm.save(function(error, savedFermentable) {
+            var fermentable = new db.Fermentable({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
+            return fermentable.save(function(error, savedFermentable) {
                 if (error) {
                     console.log(error);
                 } else {
@@ -275,13 +334,8 @@ module.exports = function(app) {
             fermentingComment: req.body.recipe.fermentingComment
         }).exec();
 
-        console.log('updateHopsPromises' + updateHopsPromises);
-        console.log('updateFermentablesPromises' + updateFermentablesPromises);
-        console.log('newHopsPromises' + newHopsPromises);
-        console.log('newFermentablesPromises' + newFermentablesPromises);
-
         // After all promises complete, get a copy of the new recipe object and return it
-        Promise.all([recipePromise].concat(updateHopsPromises, updateFermentablesPromises, newHopsPromises, newFermentablesPromises)).then(function() {
+        Promise.all([recipePromise].concat(updateHopsPromises, updateFermentablesPromises, newHopsPromises, newFermentablesPromises, deleteHopsPromises, deleteFermentablesPromises)).then(function() {
             console.log('All promises complete.');
             db.Recipe.findById(req.body.recipe._id)
                 .populate("hops")
