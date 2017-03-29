@@ -50,6 +50,19 @@ var helper = {
             url: "/api/addrecipe",
         });
     },
+
+    deleteRecipe: function(r) {
+        console.log('helper deleteRecipe: function () {');
+        console.log('axios.post("/deleteRecipe");');
+        console.log('recip:'+ r)
+        return axios({
+            method: "DELETE",
+            url: "/recipe",
+            data: {
+                recipe: r
+            }
+        });
+    },
 }
 
 module.exports = helper;

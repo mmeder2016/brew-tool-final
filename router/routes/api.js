@@ -185,6 +185,33 @@ module.exports = function(app) {
             });
     });
 
+
+
+
+
+
+    app.delete("/recipe", function(req, res) {
+        console.log('app.delete("/recipe", function(req, res) {');
+
+        var hopsPromises = req.body.recipe.hops.map(function(hop) {
+            return db.Hop.findByIdAndRemove(hop._id).exec();
+        });
+        var fermentablesPromises = req.body.recipe.fermentables.map(function(fermentable) {
+            return db.Fermentable.findByIdAndRemove(fermentable._id).exec();
+        });
+        var recipePromise = db.Recipe.findByIdAndRemove(req.body.recipe._id).exec();
+
+        Promise.all([recipePromise].concat(hopsPromises, fermentablesPromises)).then(function() {
+            console.log('All promises complete. Recipe deleted');
+            res.send('Recipe deleted');
+        });
+    });
+
+
+
+
+
+
     //     On an updatRecipe, the recipe data needs to be updated.
     // FOR BOTH THE HOPS AND FERMETABLES THE FOLLOWING IS TRUE.
     // 1.) If it is a new one to be added, the ObjectId begis with "FFFFFFFF"
@@ -241,12 +268,12 @@ module.exports = function(app) {
                     console.log(error);
                 } else {
                     // Delete the hop from the hops database
-                    db.Hop.findByIdAndRemove(elem._id , function(error, doc) {
+                    db.Hop.findByIdAndRemove(elem._id, function(error, doc) {
                         if (error) {
                             console.log(error);
                             res.send(error);
                         } else {
-                            console.log("Deleted Hop:id:" + elem._id );
+                            console.log("Deleted Hop:id:" + elem._id);
                         }
                     });
                 }
@@ -260,12 +287,12 @@ module.exports = function(app) {
                     console.log(error);
                 } else {
                     // Delete the fermentable from the fermentables database
-                    db.Fermentable.findByIdAndRemove(elem._id , function(error, doc) {
+                    db.Fermentable.findByIdAndRemove(elem._id, function(error, doc) {
                         if (error) {
                             console.log(error);
                             res.send(error);
                         } else {
-                            console.log("Deleted Fermentable:id:" + elem._id );
+                            console.log("Deleted Fermentable:id:" + elem._id);
                         }
                     });
                 }

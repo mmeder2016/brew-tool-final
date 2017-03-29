@@ -106,6 +106,16 @@ var Main = React.createClass({
         }.bind(this));
     },
 
+    deleteRecipe: function() {
+        console.log('Main deleteRecipe : function () {');
+        helper.deleteRecipe(this.state.recipe).then(function(response) {
+            console.log(response);
+            this.setState({
+                recipe: response.data
+            });
+        }.bind(this));
+    },
+
     calculationChange: function(varName, val) {
         console.log('Main calculationChange : function () {');
         console.log('varName:' + varName + ' val:' + val);
@@ -190,6 +200,7 @@ var Main = React.createClass({
                 <button onClick = { this.getRecipe } className = "btn btn-default" type = "submit" > Get Recipe </button>
                 <button onClick = { this.saveRecipe } className = "btn btn-default" type = "submit" > Save Recipe </button>
                 <button onClick = { this.newRecipe } className = "btn btn-default" type = "submit" > New Recipe </button>
+                <button onClick = { this.deleteRecipe } className = "btn btn-default" type = "submit" > Delete Recipe </button>
                 <CalculationsPanel recipe = { this.state.recipe } calculationChange = { this.calculationChange } ref = "refCalcs" />
                 <HopsPanel hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
                 <FermentablesPanel fermentableChange = { this.fermentableChange } addNewFermentable = { this.addNewFermentable } deleteFermentable = { this.deleteFermentable } fermentables = { this.state.recipe.fermentables }/>
