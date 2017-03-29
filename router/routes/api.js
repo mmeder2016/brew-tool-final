@@ -146,17 +146,25 @@ module.exports = function(app) {
 
     /* ******************************************************************** */
     /*
-        POST /api/addrecipe - 
+        POST /api/addrecipetest - 
     */
-    app.post('/api/addrecipe', function(req, res) {
-        console.log(getReqInfo(req));
-        addRecipe(req.body);
+    app.post('/api/addrecipetest', function(req, res) {
+        console.log('/api/addrecipetest');
+
+        if(req.user === undefined) {
+            res.end();
+            res.redirect('/login');
+        } else {
+            console.log(req.user);
+            console.log(req.body);
+            console.log(getReqInfo(req));
+         }
     });
 
     /* ******************************************************************** */
     /*
         addrecipe() - 
     */
-    function addrecipe() {
+    function addRecipe() {
     };
 };
