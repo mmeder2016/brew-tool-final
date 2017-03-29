@@ -1,14 +1,8 @@
 /* ************************************************************************ */
 /*
     
-*/
-import React from 'react';
-
-import Calculations from './panels/Calculations.js';
-import Fermentables from './panels/Fermentables.js';
 import Hops from './panels/Hops.js';
-
-export default className RecipeCreate extends React.Component {
+*/
 /*
     saveClick() {
         console.log('saveClick() called');
@@ -17,7 +11,16 @@ export default className RecipeCreate extends React.Component {
     clearClick() {
         console.log('clearClick() called');
     }
+
 */
+
+import React from 'react';
+
+import Calculations from './panels/Calculations.js';
+import Fermentables from './panels/Fermentables.js';
+
+export default class RecipeCreate extends React.Component {
+
     render() {
         return (
             <div className="container">
@@ -31,7 +34,7 @@ export default className RecipeCreate extends React.Component {
                         <Fermentables/>
                     </div>
                     <div className="col-lg-6 col-md-6">
-                        <Hops/>
+                        <Fermentables/>
                     </div>
                 </div>
             </div>

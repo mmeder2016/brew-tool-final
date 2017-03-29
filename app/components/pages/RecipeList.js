@@ -7,7 +7,7 @@ import Recipes from './panels/Recipes.js';
 
 const title = (<span><h2>Recipes</h2> <i>Click one to edit</i></span>);
 
-export default className RecipeList extends React.Component {
+export default class RecipeList extends React.Component {
 
     createClick() {
         console.log('create recipe click');

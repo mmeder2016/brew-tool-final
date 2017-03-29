@@ -1,13 +1,15 @@
 /* ************************************************************************ */
 /*
     
+
+value={this.state.today} 
 */
 import React from 'react';
 
 const titlePanel = (<h2 className="panel-title">Recipe Calculations</h2>);
 const titleCalcs = (<h4 className="text-center">Calculated Values</h4>);
 
-export default className Calculations extends React.Component {
+export default class Calculations extends React.Component {
 
     componentWillMount() {
         this.initializeState();
@@ -22,8 +24,8 @@ export default className Calculations extends React.Component {
         });
     }
 
-    handleBrewDateChange(value, formattedValue) {
-        console.log('handleBrewDateChange - '+formattedValue);
+    handleBrewDateChange() {
+        console.log('handleBrewDateChange');
     }
 
     handleRecipeNameChange() {
@@ -44,28 +46,28 @@ export default className Calculations extends React.Component {
                                     <div className="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Recipe Name</h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-0 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="Recipe Name" maxlength="8">
+                                        <input className="form-control calcinput-margins" type="text" placeholder="Recipe Name" />
                                     </div>
                                 </div>
                                 <div className="form-group" id="brewDate">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Brew Date</h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-7 calcinput-margins">
-                                        <input className="form-control" type="date"  value={this.state.today} onChange={this.handleBrewDateChange}>
+                                        <input className="form-control" type="date" onChange={this.handleBrewDateChange} />
                                     </div>
                                 </div>
                                 <div className="form-group" id="style">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-3 col-md-offset-2 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Style </h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="Style" maxlength="8">
+                                        <input className="form-control calcinput-margins" type="text" placeholder="Style" />
                                     </div>
                                 </div>
                                 <div className="form-group" id="batchSize">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Batch Size</h4></div>
                                     <div className="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="0.0" maxlength="8" inputmode="numeric">
+                                        <input className="form-control calcinput-margins" type="text" placeholder="0.0" inputMode="numeric" />
                                     </div>
                                 </div>
                                 <div className="form-group">
