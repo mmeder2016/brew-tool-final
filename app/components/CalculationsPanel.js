@@ -14,14 +14,21 @@ var CalculationsPanel = React.createClass({
 
         if(Array.isArray(this.props.recipe.fermentables )) {
             this.props.recipe.fermentables.forEach(function(element) {
-                var lbs = element.lbs + parseInt(element.ozs / 16);
+                var ozlbs = (parseInt(element.ozs)) / 16;
+                var lbs = parseInt(element.lbs);
+                if(isNaN(ozlbs))
+                    ozlbs = 0;
+                if(isNaN(lbs))
+                    lbs = 0;
+
+                lbs += ozlbs
                 var p = ((potential * lbs) );
                 pts += p;
             });
         } else {
             console.log('fermentables array not array yet');
         }
-        var og = 1 + (((pts * efficiency) / gallons) * .0001);
+        var og = 1 + (((pts * efficiency) / gallons) * .001);
         og = og.toFixed(3);
         console.log('OG: '+ og);
         return og;
@@ -58,7 +65,14 @@ var CalculationsPanel = React.createClass({
         
         if(Array.isArray(this.props.recipe.hops )) {
             this.props.recipe.hops.forEach(function(element) {
-                var oz = (parseInt(element.lbs, 10) * 16) + parseInt(element.ozs, 10);
+                var hoplbsozs = (parseInt(element.lbs, 10) * 16);
+                var hopozs = parseInt(element.ozs, 10);
+                if(isNaN(hoplbsozs))
+                    hoplbsozs = 0;
+                if(isNaN(hopozs))
+                    hopozs = 0
+
+                var oz = hoplbsozs + hopozs;
                 var aa = parseInt(element.alphaAcid, 10);
                 var t = parseInt(element.minutes, 10);
 
@@ -76,6 +90,10 @@ var CalculationsPanel = React.createClass({
                 else  {pu = 5; }
                 // (ounces) * (alpha acid) * (percent utilization)
                 var ibu = ( (oz * aa * pu) / volume);
+                console.log('oz:' + oz);
+                console.log('aa:'+ aa);
+                console.log('pu:' + pu)
+                console.log(element.name + ' IBU:' + ibu)
                 totalIBU += ibu;
             });
         } else {
@@ -123,6 +141,7 @@ var CalculationsPanel = React.createClass({
                                     <input type="text" className="form-control" className="numberBox" id="brewDate" value={this.props.recipe.brewDate} onChange={this.handleChange} size='16'/>
                                     <label htmlFor="batchSize">batchSize:</label>
                                     <input type="text" className="form-control" className="numberBox" id="batchSize"  value={this.props.recipe.batchSize} onChange={this.handleChange} size='4'/>
+                                    <label htmlFor="recipeName">ObjectID: {this.props.recipe._id}</label>
                                 </div>
                             </form>
                         </div>

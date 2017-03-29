@@ -185,11 +185,6 @@ module.exports = function(app) {
             });
     });
 
-
-
-
-
-
     app.delete("/recipe", function(req, res) {
         console.log('app.delete("/recipe", function(req, res) {');
 
@@ -206,11 +201,6 @@ module.exports = function(app) {
             res.send('Recipe deleted');
         });
     });
-
-
-
-
-
 
     //     On an updatRecipe, the recipe data needs to be updated.
     // FOR BOTH THE HOPS AND FERMETABLES THE FOLLOWING IS TRUE.
@@ -397,4 +387,18 @@ module.exports = function(app) {
         // console.log(brewFermentables);
         res.send('Check server logging');
     });
+
+    app.post("/savetojson", function(req, res) {
+        console.log('app.post("/savetojson", function(req, res) {');
+        var filename = req.body.recipe._id + '.json';
+        var str = JSON.stringify(req.body.recipe);
+        fs.writeFile(filename, str, function(err) {
+            if (err) {
+                return console.log(err);
+            } else {
+                res.json(req.body.recipe);
+            }
+        });
+    });
+
 };

@@ -42,6 +42,19 @@ var helper = {
         });
     },
 
+    saveToJSON: function(r) {
+        console.log('helper saveToJSON: function () {');
+        console.log('axios.post("/saveToJSON");');
+        console.log('recip:'+ r)
+        return axios({
+            method: "POST",
+            url: "/savetojson",
+            data: {
+                recipe: r
+            }
+        });
+    },
+
     newRecipe: function() {
         console.log('helper newRecipe: function () {');
         console.log('axios.post("/newRecipe");');
