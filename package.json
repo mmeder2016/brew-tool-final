@@ -8,6 +8,7 @@
     "dev": "webpack & node server",
     "start": "node server",
     "build": "webpack",
+    "buildm": "webpack --config webpack.appx.config.js",
     "buildw": "webpack -w"
   },
   "repository": {
