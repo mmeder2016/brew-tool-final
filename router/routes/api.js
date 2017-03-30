@@ -251,16 +251,11 @@ module.exports = function(app) {
             }
         });
 
-        console.log('hopsToRemove' + hopsToRemove.length);
-        console.log('fermentablesToRemove' + fermentablesToRemove.length);
-
         var deleteHopsPromises = hopsToRemove.map(function(elem) {
-            console.log('deleteHopsPromises');
             // Delete the hop from the recipe hops array
             return db.Recipe.findByIdAndUpdate(req.body.recipe._id, { $pull: { 'hops': elem._id } })
                 .exec()
                 .then(function(recipe) {
-                    console.log('db.Hop.findByIdAndRemove:' + elem._id);
                     return db.Hop.findByIdAndRemove(elem._id)
                         .exec();
                 }).catch(function(error) {
@@ -269,12 +264,10 @@ module.exports = function(app) {
         });
 
         var deleteFermentablesPromises = fermentablesToRemove.map(function(elem) {
-            console.log('');
             // Delete the fermentable from the recipe fermentables array
             return db.Recipe.findByIdAndUpdate(req.body.recipe._id, { $pull: { 'fermentables': elem._id } })
                 .exec()
                 .then(function(recipe) {
-                    console.log('db.Fermentable.findByIdAndRemove');
                     return db.Fermentable.findByIdAndRemove(elem._id)
                         .exec();
                 }).catch(function(error) {
@@ -369,9 +362,13 @@ module.exports = function(app) {
 
     app.post("/savetojson", function(req, res) {
         console.log('app.post("/savetojson", function(req, res) {');
-        var filename = req.body.recipe._id + '.json';
-        var str = JSON.stringify(req.body.recipe);
-        fs.writeFile(filename, str, function(err) {
+        var dataLoc = path.join(app.get('approot'), '/data');
+        var filename = '/data/-' + req.body.recipe._id + '.json';
+        var dataLoc = path.join(app.get('approot'), filename);
+        var jsonStr = JSON.stringify(req.body.recipe, null, 2);
+        var obj = JSON.parse(jsonStr);
+
+        fs.writeFile(dataLoc, jsonStr, function(err) {
             if (err) {
                 return console.log(err);
             } else {
