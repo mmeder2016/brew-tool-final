@@ -199,6 +199,7 @@ var RecipeCreate = React.createClass({
                     <div className="col-lg-6 col-lg-offset-0 col-md-6">
                     </div>
                     <div className="col-lg-6 col-md-6">
+                        <Hops hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
                     </div>
                 </div>
             </div>
