@@ -91,6 +91,10 @@ var router = require('./router');
 var server;
 var db;
 
+// Data acquired from brewerydb api
+var brew = require('./data/brew');
+app.set('brew', brew);
+
 /*
     Set up the database with our models, optional.
 */
@@ -138,6 +142,8 @@ function initSockets() {
     console.log('Server - IDLE - listening for socket.io events');
     console.log('================================================');
 };
+
+
 
 
 
