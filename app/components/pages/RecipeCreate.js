@@ -1,19 +1,7 @@
 /* ************************************************************************ */
 /*
     
-import Hops from './panels/Hops.js';
 */
-/*
-    saveClick() {
-        console.log('saveClick() called');
-    }
-
-    clearClick() {
-        console.log('clearClick() called');
-    }
-
-*/
-
 import React from 'react';
 
 import Calculations from './panels/Calculations.js';
