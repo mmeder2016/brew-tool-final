@@ -34,15 +34,18 @@ class Header extends React.Component {
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
                     </button>
-                    <h5 className="navbar-brand navbar-left site-font">Site Name Here!</h5>
+                    <h5 className="navbar-brand navbar-left site-font">Beer Tool!</h5>
                 </div>
                 <div className="navbar-right navbar-collapse collapse">
                     <ul className="nav navbar-nav">
                         <li>
-                            <Link to='test1' activeClassName='active' data-toggle="collapse" data-target=".navbar-collapse" >Login</Link>
+                            <Link to='list' activeClassName='active' data-toggle="collapse" data-target=".navbar-collapse" >Recipes</Link>
                         </li>
                         <li>
-                            <Link to='test2' activeClassName='active' data-toggle="collapse" data-target=".navbar-collapse" >Sign Up</Link>
+                            <Link to='create' activeClassName='active' data-toggle="collapse" data-target=".navbar-collapse" >Create</Link>
+                        </li>
+                        <li>
+                            <a href="/logout" data-toggle="collapse" data-target=".navbar-collapse">Log Out</a>
                         </li>
                     </ul>
                 </div>

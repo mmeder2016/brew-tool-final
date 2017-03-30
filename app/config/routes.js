@@ -13,8 +13,8 @@ import RecipeCreate from '../components/pages/RecipeCreate.js';
 const router = (
     <Router history={hashHistory}>
         <Route path='/' component={Main}>
-        <Route path='test1' component={RecipeCreate} />
-        <Route path='test2' component={RecipeList} />
+        <Route path='create' component={RecipeCreate} />
+        <Route path='list' component={RecipeList} />
         <IndexRoute component={RecipeList} />
         </Route>
     </Router>
