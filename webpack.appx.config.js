@@ -5,7 +5,7 @@ module.exports = {
 
   // The plain compiled JavaScript will be output into this file
   output: {
-    filename: "public/reactappBundle.js"
+    filename: "public/appXBundle.js"
   },
 
   // This section desribes the transformations we will perform
