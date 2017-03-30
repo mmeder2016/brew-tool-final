@@ -15,10 +15,10 @@ export default class RecipeList extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="RecipeList">
                 <div className="row">
-                    <div className="col-md-12">
-                        <div className="panel panel-success">
+                    <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1">
+                        <div className="panel panel-primary">
                             <div className="panel-heading">
                                 <h3 className="panel-title">{title}</h3>
                             </div>
@@ -29,10 +29,10 @@ export default class RecipeList extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-1 col-md-offset-5">
+                    <div className="col-lg-1 col-lg-offset-5 col-md-1 col-md-offset-5 col-sm-1 col-sm-offset-5 col-xs-3 col-xs-offset-4">
                         <div className="btn-toolbar">
                             <div role="group" className="btn-group">
-                                <button className="btn btn-success" type="button" onClick={this.createClick}>Create a Recipe</button>
+                                <button id="DoRecipeCreate" className="btn btn-success" type="button" onClick={this.createClick}>Create a Recipe</button>
                             </div>
                         </div>
                     </div>
