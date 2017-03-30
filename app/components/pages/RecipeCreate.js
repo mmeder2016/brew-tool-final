@@ -2,42 +2,41 @@
 /*
     
 */
-import React from 'react';
+var React = require('react');
 
-import Calculations from './panels/Calculations.js';
-import Fermentables from './panels/Fermentables.js';
-import Hops from './panels/Hops.js';
+var Calculations  = require( './panels/Calculations.js');
+var Fermentables  = require( './panels/Fermentables.js');
+var Hops  = require( './panels/Hops.js');
+var helper  = require( '../utils/helpers');
 
-import helper from '../utils/helpers';
+var RecipeCreate = React.createClass({
 
-export default class RecipeCreate extends React.Component {
-
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-        recipe: {}
+    getInitialState: function() {
+        console.log('Main getInitialState: function () {');
+        return {
+            recipe: {}
         };
-    };
+    },
 
-    addNewHop(data) {
+    addNewHop: function(data) {
         console.log('RecipeCreate addNewHop  () {');
         var nstr = Date.now().toString()
         var idStr = 'FFFFFFFFFFF' + nstr;
         idStr = idStr.slice(idStr.length - 24, idStr.length);
         this.state.recipe.hops.push({ _id: idStr, name: data, lbs: "", ozs: "", alphaAcid: "", minutes: "" });
         this.forceUpdate();
-    }
+    },
 
-    addNewFermentable(data) {
+    addNewFermentable: function(data) {
         console.log('RecipeCreate addNewFermentable  () {');
         var nstr = Date.now().toString()
         var idStr = 'FFFFFFFFFFF' + nstr;
         idStr = idStr.slice(idStr.length - 24, idStr.length);
         this.state.recipe.fermentables.push({ _id: idStr, name: data, lbs: "", ozs: "" });
         this.forceUpdate();
-    }
+    },
 
-    deleteHop(hopId) {
+    deleteHop: function(hopId) {
         console.log('RecipeCreate deleteHop  () {');
         // if it is not in the database
         var i = 0;
@@ -56,9 +55,9 @@ export default class RecipeCreate extends React.Component {
             }
         }
         this.forceUpdate();
-    }
+    },
 
-    deleteFermentable(fermentableId) {
+    deleteFermentable: function(fermentableId) {
         console.log('RecipeCreate deleteFermentable  () {');
         // if it is not in the database
         var i = 0;
@@ -77,9 +76,9 @@ export default class RecipeCreate extends React.Component {
             }
         }
         this.forceUpdate();
-    }
+    },
 
-    getRecipe(recipeId) {
+    getRecipe: function(recipeId) {
         console.log('RecipeCreate getRecipe  () {');
         helper.getRecipe(recipeId).then(function(response) {
             //console.log(response);
@@ -87,9 +86,9 @@ export default class RecipeCreate extends React.Component {
                 recipe: response.data
             });
         }.bind(this));
-    }
+    },
 
-    saveRecipe() {
+    saveRecipe: function() {
         console.log('RecipeCreate saveRecipe  () {');
         helper.updateRecipe(this.state.recipe).then(function(response) {
             //console.log(response);
@@ -97,9 +96,9 @@ export default class RecipeCreate extends React.Component {
                 recipe: response.data
             });
         }.bind(this));
-    }
+    },
 
-    newRecipe() {
+    newRecipe: function() {
         console.log('RecipeCreate newRecipe  () {');
         helper.newRecipe().then(function(response) {
             //console.log(response);
@@ -107,9 +106,9 @@ export default class RecipeCreate extends React.Component {
                 recipe: response.data
             });
         }.bind(this));
-    }
+    },
 
-    deleteRecipe() {
+    deleteRecipe: function() {
         console.log('RecipeCreate deleteRecipe  () {');
         helper.deleteRecipe(this.state.recipe).then(function(response) {
             console.log(response);
@@ -117,9 +116,9 @@ export default class RecipeCreate extends React.Component {
                 recipe: response.data
             });
         }.bind(this));
-    }
+    },
 
-    saveToJSON() {
+    saveToJSON: function() {
         console.log('RecipeCreate saveToJSON  () {');
         helper.saveToJSON(this.state.recipe).then(function(response) {
             //console.log(response);
@@ -127,9 +126,9 @@ export default class RecipeCreate extends React.Component {
                 recipe: response.data
             });
         }.bind(this));
-    }
+    },
 
-    calculationChange(varName, val) {
+    calculationChange: function(varName, val) {
         console.log('RecipeCreate calculationChange  () {');
         console.log('varName:' + varName + ' val:' + val);
 
@@ -146,9 +145,9 @@ export default class RecipeCreate extends React.Component {
         // We can later add code to nnly update the CalculationsPanel
         // We do not need to udate the Hops and Fermentables PAnel
         this.forceUpdate();
-    }
+    },
 
-    fermentableChange(fermObjId, varName, val) {
+    fermentableChange: function(fermObjId, varName, val) {
         console.log('RecipeCreate fermentableChange  () {');
         for (var i = 0; i < this.state.recipe.fermentables.length; i++) {
             console.log('inloop:' + this.state.recipe.fermentables[i]._id)
@@ -164,9 +163,9 @@ export default class RecipeCreate extends React.Component {
             }
         }
         this.forceUpdate();
-    }
+    },
 
-    hopChange(hopObjId, varName, val) {
+    hopChange: function(hopObjId, varName, val) {
         console.log('RecipeCreate hopChange  () {');
         for (var i = 0; i < this.state.recipe.hops.length; i++) {
             console.log('inloop:' + this.state.recipe.hops[i]._id)
@@ -187,27 +186,26 @@ export default class RecipeCreate extends React.Component {
         }
         //this.renderCalculationsPanel();
         this.forceUpdate();
-    }
+    },
 
-    render() {
+    render: function() {
         return (
             <div className="container">
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                        <Calculations recipe = { this.state.recipe } calculationChange = { this.calculationChange } ref = "refCalcs" />
                     </div>
                 </div>
                 <div className="row" id="ingredients-row">
                     <div className="col-lg-6 col-lg-offset-0 col-md-6">
-                        <Fermentables fermentableChange = { this.fermentableChange } addNewFermentable = { this.addNewFermentable } deleteFermentable = { this.deleteFermentable } fermentables = { this.state.recipe.fermentables }/>
                     </div>
                     <div className="col-lg-6 col-md-6">
-                        <Hops hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
                     </div>
                 </div>
             </div>
         );
     }
 
-}
+});
+
+module.exports = RecipeCreate;
 

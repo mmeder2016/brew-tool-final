@@ -4,18 +4,14 @@
 
 value={this.state.today} 
 */
-import React from 'react';
+var React = require('react');
 
-const titlePanel = (<h2 className="panel-title">Recipe Calculations</h2>);
-const titleCalcs = (<h4 className="text-center">Calculated Values</h4>);
+var titlePanel = (<h2 className="panel-title">Recipe Calculations</h2>);
+var titleCalcs = (<h4 className="text-center">Calculated Values</h4>);
 
-export default class Calculations extends React.Component {
+var Calculations = React.createClass({
 
-    constructor(props, context) {
-        super(props, context);
-    };
-
-    render() {
+    render: function () {
         this.doCalculations();
 
         return (
@@ -115,10 +111,10 @@ export default class Calculations extends React.Component {
                 </div>
             </div>
         );
-    }
+    },
 
 
-    getOG(){
+    getOG: function (){
         console.log('Calculations getOG  () {');
         var gallons = this.props.recipe.batchSize;
 
@@ -147,9 +143,9 @@ export default class Calculations extends React.Component {
         og = og.toFixed(3);
         console.log('OG: '+ og);
         return og;
-    }
+    },
 
-    getFG(og){
+    getFG: function (og){
         console.log('Calculations getFG(og){');
         // yeast attenuation -depends yeast and on mashing technique .75 is close enough
         var attentuation = .75;
@@ -159,24 +155,24 @@ export default class Calculations extends React.Component {
         console.log('temp:' + temp + ' og:' + og + ' fg:' + fg);
         fg = fg.toFixed(3);
         return fg;
-    }
+    },
 
-    getSRM(){
+    getSRM: function (){
         console.log('Calculations getSRM(){');
         var srm = 0;
         srm = srm.toFixed(1);
         return srm;
-    }
+    },
 
-    getABV(og, fg){
+    getABV: function (og, fg){
         console.log('getABV(og, fg){');
         var og = localStorage.getItem('OG');
         var fg = localStorage.getItem('FG');
         var abv = (og - fg) * 131
         return abv.toFixed(1);
-    }
+    },
 
-    getIBU() {
+    getIBU: function () {
         console.log('Calculations getIBU  () {');
         var totalIBU = 0;
         var volume = this.props.recipe.batchSize;
@@ -218,14 +214,14 @@ export default class Calculations extends React.Component {
         console.log('IBU: '+ totalIBU);
         totalIBU = totalIBU.toFixed(1);
         return totalIBU;
-    }
+    },
 
-    handleChange(event) {
+    handleChange: function (event) {
         console.log('Calculations handleChange(event) {');
         this.props.calculationChange(event.target.id, event.target.value);
-    }
+    },
 
-    doCalculations(){
+    doCalculations: function (){
         console.log('Calculations doCalculations(){');
         localStorage.clear();
         localStorage.setItem("IBU", this.getIBU());
@@ -234,4 +230,7 @@ export default class Calculations extends React.Component {
         localStorage.setItem("ABV", this.getABV());
         localStorage.setItem("SRM", this.getSRM());
     }
-}
+});
+
+module.exports = Calculations;
+
