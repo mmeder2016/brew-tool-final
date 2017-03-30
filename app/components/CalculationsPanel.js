@@ -73,7 +73,8 @@ var CalculationsPanel = React.createClass({
                     hopozs = 0
 
                 var oz = hoplbsozs + hopozs;
-                var aa = parseInt(element.alphaAcid, 10);
+                var aa = parseFloat(element.alphaAcid, 10);
+                aa.toFixed(1);
                 var t = parseInt(element.minutes, 10);
 
                 var pu = 0;
