@@ -18,6 +18,7 @@ import React from 'react';
 
 import Calculations from './panels/Calculations.js';
 import Fermentables from './panels/Fermentables.js';
+import Hops from './panels/Hops.js';
 
 export default class RecipeCreate extends React.Component {
 
@@ -34,7 +35,7 @@ export default class RecipeCreate extends React.Component {
                         <Fermentables/>
                     </div>
                     <div className="col-lg-6 col-md-6">
-                        <Fermentables/>
+                        <Hops/>
                     </div>
                 </div>
             </div>
