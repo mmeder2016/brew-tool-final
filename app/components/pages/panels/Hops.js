@@ -4,6 +4,9 @@
 */
 import React from 'react';
 
+import Hop from './Hop.js';
+
+
 const titlePanel = (<h3 className="panel-title">Hops</h3>);
 
 export default class Hops extends React.Component {
@@ -36,10 +39,7 @@ export default class Hops extends React.Component {
                                     </div>
                                 </div>
 
-                                {this.renderHops(0)}
-                                {this.renderHops(1)}
-                                {this.renderHops(2)}
-                                {this.renderHops(3)}
+                                <Hop />
 
                             </form>
                         </div>
