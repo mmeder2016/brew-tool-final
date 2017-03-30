@@ -11,42 +11,9 @@ const titleCalcs = (<h4 className="text-center">Calculated Values</h4>);
 
 export default class Calculations extends React.Component {
 
-    componentWillMount() {
-        this.initializeState();
-    }
-    
-    initializeState() {
-        this.setState({
-            today: new Date().toISOString(),
-            recipeName: '',
-            style: '',
-            batchSize: '0.0'
-        });
-    }
-
-    onBrewDateChange(event) {
-        console.log('onBrewDateChange - '+event.target.value);
-    }
-
-    onStyleChange(event) {
-        console.log('onStyleChange - '+event.target.value);
-    }
-
-    onBatchSzChange(event) {
-        console.log('onBatchSzChange - '+event.target.value);
-    }
-
-    onNameChange(event) {
-        console.log('onNameChange - '+event.target.value);
-    }
-
-    onSaveClick() {
-        console.log('onSaveClick!');
-    }
-
-    onClearClick() {
-        console.log('onClearClick!');
-    }
+    constructor(props, context) {
+        super(props, context);
+    };
 
     render() {
         this.doCalculations();
@@ -61,33 +28,33 @@ export default class Calculations extends React.Component {
                         <div className="col-lg-6 col-md-6 col-sm-6 col-xs-6" id="calcinput">
                             <form className="form-horizontal">
 
-                                <div className="form-group" id="recipeName">
+                                <div className="form-group">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-5 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Recipe Name</h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-0 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="Recipe Name" onChange={this.onNameChange} />
+                                        <input className="form-control calcinput-margins" type="text" placeholder="Recipe Name" id="recipeName" value={this.props.recipe.recipeName} onChange={this.handleChange}  />
                                     </div>
                                 </div>
 
-                                <div className="form-group" id="brewDate">
+                                <div className="form-group">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Brew Date</h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-7 calcinput-margins">
-                                        <input className="form-control" type="date" onChange={this.onBrewDateChange} />
+                                        <input className="form-control" type="date" id="brewDate" value={this.props.recipe.brewDate} onChange={this.handleChange} />
                                     </div>
                                 </div>
-                                <div className="form-group" id="style">
+                                <div className="form-group">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-3 col-md-offset-2 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Style</h4></div>
                                     <div className="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="Style" onChange={this.onStyleChange} />
+                                        <input className="form-control calcinput-margins" type="text" placeholder="Style" id="style" value={this.props.recipe.style} onChange={this.handleChange} />
                                     </div>
                                 </div>
-                                <div className="form-group" id="batchSize">
+                                <div className="form-group">
                                     <div className="col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-5">
                                         <h4 className="text-center bg-primary calcs-input-label">Batch Size</h4></div>
                                     <div className="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-7">
-                                        <input className="form-control calcinput-margins" type="text" placeholder="0.0" inputMode="numeric" onChange={this.onBatchSzChange} />
+                                        <input className="form-control calcinput-margins" type="text" placeholder="0.0" inputMode="numeric" id="batchSize"  value={this.props.recipe.batchSize} onChange={this.handleChange} />
                                     </div>
                                 </div>
                                 <div className="form-group">

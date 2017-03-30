@@ -8,34 +8,16 @@ import Calculations from './panels/Calculations.js';
 import Fermentables from './panels/Fermentables.js';
 import Hops from './panels/Hops.js';
 
+import helper from '../utils/helpers';
+
 export default class RecipeCreate extends React.Component {
 
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                        <Calculations recipe = { this.state.recipe } calculationChange = { this.calculationChange } ref = "refCalcs" />
-                    </div>
-                </div>
-                <div className="row" id="ingredients-row">
-                    <div className="col-lg-6 col-lg-offset-0 col-md-6">
-                        <Fermentables fermentableChange = { this.fermentableChange } addNewFermentable = { this.addNewFermentable } deleteFermentable = { this.deleteFermentable } fermentables = { this.state.recipe.fermentables }/>
-                    </div>
-                    <div className="col-lg-6 col-md-6">
-                        <Hops hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    getInitialState() {
-        console.log('RecipeCreate getInitialState () {');
-        return {
-            recipe: {}
+    constructor(props, context) {
+        super(props, context);
+        this.state = {
+        recipe: {}
         };
-    }
+    };
 
     addNewHop(data) {
         console.log('RecipeCreate addNewHop  () {');
@@ -205,6 +187,26 @@ export default class RecipeCreate extends React.Component {
         }
         //this.renderCalculationsPanel();
         this.forceUpdate();
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                        <Calculations recipe = { this.state.recipe } calculationChange = { this.calculationChange } ref = "refCalcs" />
+                    </div>
+                </div>
+                <div className="row" id="ingredients-row">
+                    <div className="col-lg-6 col-lg-offset-0 col-md-6">
+                        <Fermentables fermentableChange = { this.fermentableChange } addNewFermentable = { this.addNewFermentable } deleteFermentable = { this.deleteFermentable } fermentables = { this.state.recipe.fermentables }/>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <Hops hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
 }
