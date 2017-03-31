@@ -153,12 +153,12 @@ module.exports = function(app) {
         //console.log(getReqInfo(req));
         console.log('app.post("/api/addrecipe", function(req, res) {');
         var recipe = new db.Recipe();
-
         recipe.save(function(error, doc) {
             if (error) {
                 console.log(error);
             } else {
-                res.json(recipe);
+                db.User.findOneAndUpdate({ "_id": req.user._id }, { $push: { "recipes": doc._id }  }).exec();
+                res.json(doc);
             }
         });
     });
@@ -196,7 +196,9 @@ module.exports = function(app) {
         });
         var recipePromise = db.Recipe.findByIdAndRemove(req.body.recipe._id).exec();
 
-        Promise.all([recipePromise].concat(hopsPromises, fermentablesPromises)).then(function() {
+        var userPromise = db.User.findByIdAndUpdate(req.user._id, { $pull: { 'recipes': req.body.recipe._id } }).exec();
+
+        Promise.all([recipePromise].concat(hopsPromises, fermentablesPromises, userPromise)).then(function() {
             console.log('All promises complete. Recipe deleted');
             res.send('Recipe deleted');
         });
@@ -278,7 +280,8 @@ module.exports = function(app) {
         // if it is not an update but is a new ingredient, it must first complete 
         // being inserted into the database before it can be added to the recipe.
         var newHopsPromises = newHops.map(function(elem) {
-            var hop = new db.Hop({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs });
+            var hop = new db.Hop({ "name": elem.name, "lbs": elem.lbs, "ozs": elem.ozs, "alphaAcid": elem.alphaAcid, "minutes": elem.minutes });
+            console.log('ADD HOP:' + hop)
             return hop.save()
                 .then(function(hop) {
                     return db.Recipe.findOneAndUpdate({ "_id": req.body.recipe._id }, { $push: { "hops": hop._id } })

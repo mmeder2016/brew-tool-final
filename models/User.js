@@ -6,7 +6,11 @@ var userSchema = mongoose.Schema({
     name: String,
     email: String,
     password: String,
-  }
+  },
+  recipes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Recipe"
+    }]
 });
 
 userSchema.methods.generateHash = function(password) {
