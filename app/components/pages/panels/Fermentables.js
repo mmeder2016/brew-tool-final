@@ -6,9 +6,8 @@ var React = require("react");
 var Fermentable = require ("./Fermentable");
 var helper = require("../../utils/helpers");
 
-
-const titlePanel = (<h3 className="panel-title">Fermentables</h3>);
-
+const titlePanel = (<h3 className="panel-title"> <a href="#section-f" data-toggle="collapse" data-parent="#accordion-f">Fermentables </a></h3>);
+ 
 /*
     When set to 'true' we will read previously retrieved and
     saved data. This insures that the allowed limit of API 
@@ -55,26 +54,30 @@ var Fermentables = React.createClass({
         }
  
         return (
-            <div className="panel panel-primary" id="fermentables">
-                <div className="panel-heading">
-                    {titlePanel}
-                </div>
-                <div className="panel-body">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <form className="form-horizontal">
-                                <div className="form-group" id="ferment-select">
-                                    <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <select id="frmSelect" ref="frmSelect" className="form-control" onChange={this.handleSelect}>
-                                            {this.renderSelectOptions(this.state.fermentableList)}
-                                        </select>
-                                    </div>
-                                    <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
-                                        <button className="btn btn-success" type="button" onClick={this.addFermentable}>Add</button>
-                                    </div>
+            <div id="accordion-f" className="panel-group">
+                <div className="panel panel-primary" id="fermentables">
+                    <div className="panel-heading">
+                        {titlePanel}
+                    </div>
+                    <div className="panel-collapse collapse" id="section-f">
+                        <div className="panel-body">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <form className="form-horizontal">
+                                        <div className="form-group" id="ferment-select">
+                                            <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                <select id="frmSelect" ref="frmSelect" className="form-control" onChange={this.handleSelect}>
+                                                    {this.renderSelectOptions(this.state.fermentableList)}
+                                                </select>
+                                            </div>
+                                            <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
+                                                <button className="btn btn-success" type="button" onClick={this.addFermentable}>Add</button>
+                                            </div>
+                                        </div>
+                                        {fermentablesMap}
+                                    </form>
                                 </div>
-                                {fermentablesMap}
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

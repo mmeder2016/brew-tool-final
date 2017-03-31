@@ -7,7 +7,7 @@ var React = require("react");
 var Hop = require ("./Hop");
 var helper  = require( '../../utils/helpers');
 
-const titlePanel = (<h3 className="panel-title">Hops</h3>);
+const titlePanel = (<h3 className="panel-title"> <a href="#section-h" data-toggle="collapse" data-parent="#accordion-h">Hops </a></h3>);
 
 /*
     When set to 'true' we will read previously retrieved and
@@ -61,29 +61,33 @@ var Hops = React.createClass({
         }
  
         return (
-            <div className="panel panel-primary" id="hops">
-                <div className="panel-heading">
-                    {titlePanel}
-                </div>
-                <div className="panel-body">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <form className="form-horizontal">
-                                <div className="form-group" id="hops-select">
-                                    <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <select id="hopSelect" ref="hopSelect" className="form-control" onChange={this.handleSelect}>
-                                            {this.renderSelectOptions(this.state.hopList)}
-                                        </select>
-                                    </div>
-                                    <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
-                                        <button className="btn btn-success" type="button" onClick={this.addHop}>Add</button>
-                                    </div>
+            <div id="accordion-h" className="panel-group">
+                <div className="panel panel-primary" id="hops">
+                    <div className="panel-heading">
+                        {titlePanel}
+                    </div>
+                    <div className="panel-collapse collapse" id="section-h">
+                        <div className="panel-body">
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <form className="form-horizontal">
+                                        <div className="form-group" id="hops-select">
+                                            <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                <select id="hopSelect" ref="hopSelect" className="form-control" onChange={this.handleSelect}>
+                                                    {this.renderSelectOptions(this.state.hopList)}
+                                                </select>
+                                            </div>
+                                            <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
+                                                <button className="btn btn-success" type="button" onClick={this.addHop}>Add</button>
+                                            </div>
+                                        </div>
+                                        {hopsMap}
+                                    </form>
                                 </div>
-                                {hopsMap}
-                            </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+            </div>
             </div>
         );
     },
