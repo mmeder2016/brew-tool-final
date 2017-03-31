@@ -66,7 +66,7 @@ var Hops = React.createClass({
                             <form className="form-horizontal">
                                 <div className="form-group" id="hops-select">
                                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <select className="form-control" onChange={this.handleSelect}>
+                                        <select id="hopSelect" ref="hopSelect" className="form-control" onChange={this.handleSelect}>
                                             {this.renderSelectOptions(this.state.hopList)}
                                         </select>
                                     </div>
@@ -97,12 +97,12 @@ var Hops = React.createClass({
     },
 
     addHop: function (data) {
-        console.log('Hops addNewHop : function () {');
-        this.props.addNewHop('');
+        console.log('Hops addNewHop()');
+        this.props.addNewHop(this.refs.hopSelect.value);
     },
 
     deleteHop: function(id){
-        console.log('deleteHop: function(){');
+        console.log('deleteHop()');
         this.props.deleteHop(id);
     },
     

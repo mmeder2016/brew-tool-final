@@ -60,7 +60,7 @@ var Fermentables = React.createClass({
                             <form className="form-horizontal">
                                 <div className="form-group" id="ferment-select">
                                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <select className="form-control" onChange={this.handleSelect}>
+                                        <select id="frmSelect" ref="frmSelect" className="form-control" onChange={this.handleSelect}>
                                             {this.renderSelectOptions(this.state.fermentableList)}
                                         </select>
                                     </div>
@@ -98,7 +98,7 @@ var Fermentables = React.createClass({
 
     addFermentable: function (data) {
         console.log('Fermentables addFermentable');
-        this.props.addNewFermentable('');
+        this.props.addNewFermentable(this.refs.frmSelect.value);
     },
 
     deleteFermentable: function(id){
