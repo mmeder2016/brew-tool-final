@@ -8,7 +8,7 @@ var Fermentable = React.createClass({
 
     render: function() {
         return (
-            <div id={fid} className="form-group">
+            <div className="form-group">
                 <div className="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                     <input id="lbs" value={this.props.lbs} onChange={this.handleChange} className="form-control input-margins" type="text"/>
                 </div>
@@ -28,7 +28,7 @@ var Fermentable = React.createClass({
                 </div>
 
                 <div className="col-lg-1 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-2 col-sm-offset-0 col-xs-6 col-xs-offset-4 input-margins">
-                    <button id={btnid} className="btn btn-danger" type="button" onClick={this.onDelClick}>Delete</button>
+                    <button className="btn btn-danger" type="button" onClick={this.deleteFermentable}>Delete</button>
                 </div>
             </div>
         );

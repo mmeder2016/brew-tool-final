@@ -23,11 +23,6 @@ var useLocalData = true;
 
 var Hops = React.createClass({
 
-    addClick: function(event) {
-        console.log('addClick()');
-        console.log(event);
-    },
-
     handleSelect: function(event){
         console.log('handleSelect() - ' + event.target.value);
     },
@@ -52,13 +47,13 @@ var Hops = React.createClass({
         var parent = this;
         var hopsMap = [];
         // An error is thrown if the recipe is still undefined
-        // if(Array.isArray(this.props.hops)) {
-        //     hopsMap = this.props.hops.map(function (hop) {
-        //         if(('removed' in hop) === false) {
-        //             return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
-        //         }
-        //     });
-        // }
+        if(Array.isArray(this.props.hops)) {
+            hopsMap = this.props.hops.map(function (hop) {
+                if(('removed' in hop) === false) {
+                    return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
+                }
+            });
+        }
  
         return (
             <div className="panel panel-primary" id="hops">
@@ -76,9 +71,10 @@ var Hops = React.createClass({
                                         </select>
                                     </div>
                                     <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
-                                        <button className="btn btn-success" type="button" onClick={this.addClick}>Add</button>
+                                        <button className="btn btn-success" type="button" onClick={this.addHop}>Add</button>
                                     </div>
                                 </div>
+                                {hopsMap}
                             </form>
                         </div>
                     </div>

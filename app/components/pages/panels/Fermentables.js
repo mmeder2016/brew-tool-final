@@ -23,11 +23,6 @@ var useLocalData = true;
 
 var Fermentables = React.createClass({
 
-    addClick: function(event) {
-        console.log('addClick()');
-        console.log(event);
-    },
-
     handleSelect: function(event){
         console.log('handleSelect() - ' + event.target.value);
     },
@@ -46,13 +41,13 @@ var Fermentables = React.createClass({
 
         var fermentablesMap = [];
  
-        // if(Array.isArray(this.props.fermentables)) {
-        //     fermentablesMap = this.props.fermentables.map(function (fermentable) {
-        //         if(('removed' in fermentable) === false) {
-        //             return (<Fermentable key={fermentable._id} id={fermentable._id} name={fermentable.name} lbs={fermentable.lbs} ozs={fermentable.ozs} deleteFermentable={parent.deleteFermentable} fermentableChange={parent.fermentableChange}/>)
-        //         }
-        //     });
-        // }
+        if(Array.isArray(this.props.fermentables)) {
+            fermentablesMap = this.props.fermentables.map(function (fermentable) {
+                if(('removed' in fermentable) === false) {
+                    return (<Fermentable key={fermentable._id} id={fermentable._id} name={fermentable.name} lbs={fermentable.lbs} ozs={fermentable.ozs} deleteFermentable={parent.deleteFermentable} fermentableChange={parent.fermentableChange}/>)
+                }
+            });
+        }
  
         return (
             <div className="panel panel-primary" id="fermentables">
@@ -70,9 +65,10 @@ var Fermentables = React.createClass({
                                         </select>
                                     </div>
                                     <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
-                                        <button className="btn btn-success" type="button" onClick={this.addClick}>Add</button>
+                                        <button className="btn btn-success" type="button" onClick={this.addFermentable}>Add</button>
                                     </div>
                                 </div>
+                                {fermentablesMap}
                             </form>
                         </div>
                     </div>

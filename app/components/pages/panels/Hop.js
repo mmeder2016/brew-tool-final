@@ -4,22 +4,11 @@
 */
 var React = require("react");
 
-let idx = 0;
-
 var Hop = React.createClass({
 
     render: function() {
-
-        let hid = "hform-"+idx;
-        let namid = "hnam-"+idx;
-        let minid = "hmin-"+idx;
-        let ozsid = "hozs-"+idx;
-        let btnid = "hdbtn-"+idx;
-
-        idx += 1;
-
         return (
-            <div id={hid} className="form-group">
+            <div className="form-group">
                 <div className="col-lg-2 col-md-2 col-sm-2 col-xs-3 hop-input-col-padding">
                     <input id="ozs" value={this.props.ozs} onChange={this.handleChange} className="form-control input-margins" type="text"/>
                 </div>
@@ -46,20 +35,20 @@ var Hop = React.createClass({
                 </div>
 
                 <div className="col-lg-2 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-2 col-sm-offset-1 col-xs-4 col-xs-offset-3 input-margins">
-                    <button id={btnid} className="btn btn-danger" type="button" onClick={this.deleteHop}>Delete</button>
+                    <button className="btn btn-danger" type="button" onClick={this.deleteHop}>Delete</button>
                 </div>
             </div>
         );
     },
 
     deleteHop: function (event) {
-        console.log('Hop deleteHop: function (event) {');
+        console.log('Hop deleteHop(event)');
         this.props.deleteHop(this.props.id);
         event.preventDefault();
     },
 
     handleChange: function(event) {
-        console.log('Hop handleChange: function(event) {');
+        console.log('Hop handleChange(event)');
         this.props.hopChange(this.props.id, event.target.id, event.target.value);
     }
 });
