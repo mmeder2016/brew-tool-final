@@ -9,7 +9,7 @@ class Footer extends React.Component {
         return(
             <footer className="footer footer-fixed">
                 <div className="text-center">
-                    <strong>Beer Tool! &copy; 2017</strong>
+                    <strong>Brew Tool! &copy; 2017</strong>
                 </div>
             </footer>
         )
