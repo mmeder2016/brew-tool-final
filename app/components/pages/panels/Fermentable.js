@@ -7,8 +7,10 @@ var React = require("react");
 var Fermentable = React.createClass({
 
     render: function() {
+        console.log('F - this.props._id');
+        console.log(this.props._id);
         return (
-            <div className="form-group">
+            <div key={this.props._id} className="form-group">
                 <div className="col-lg-2 col-md-2 col-sm-2 col-xs-3">
                     <input id="lbs" value={this.props.lbs} onChange={this.handleChange} className="form-control input-margins" type="text"/>
                 </div>
@@ -24,7 +26,7 @@ var Fermentable = React.createClass({
                 </div>
 
                 <div className="col-lg-3 col-md-4 col-sm-4">
-                    <input id="name" value={this.props.name} className="form-control input-margins" type="text"/>
+                    <input id="name" value={this.props.name} onChange={this.handleChange} className="form-control input-margins" type="text"/>
                 </div>
 
                 <div className="col-lg-1 col-lg-offset-0 col-md-8 col-md-offset-4 col-sm-2 col-sm-offset-0 col-xs-6 col-xs-offset-4 input-margins">
