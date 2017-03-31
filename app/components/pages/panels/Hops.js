@@ -50,7 +50,12 @@ var Hops = React.createClass({
         if(Array.isArray(this.props.hops)) {
             hopsMap = this.props.hops.map(function (hop) {
                 if(('removed' in hop) === false) {
-                    return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
+                    return (
+                        <div>
+                            <Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange} />
+                            <hr/>
+                        </div>
+                    )
                 }
             });
         }
