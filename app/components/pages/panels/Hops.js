@@ -7,16 +7,19 @@ var React = require("react");
 var Hop = require ("./Hop");
 var helper  = require( '../../utils/helpers');
 
-
 const titlePanel = (<h3 className="panel-title">Hops</h3>);
 
-// NOTE: value can be a string or a number.
-let selectChoices = [
-                        {value:"none", text:"Select..."},
-                        {value:"lager", text:"lager"},
-                        {value:"pilsner", text:"pilsner"},
-                        {value:"ipa", text:"ipa"}
-                    ];
+/*
+    When set to 'true' we will read previously retrieved and
+    saved data. This insures that the allowed limit of API 
+    calls to the data provider isn't exceeded.
+
+    NOTE: This variable can also be found in the following
+    files - 
+
+    /data/brew.js
+*/
+var useLocalData = true;
 
 var Hops = React.createClass({
 
@@ -30,29 +33,23 @@ var Hops = React.createClass({
     },
 
     renderSelectOptions: function(list) {
-        let options = list.map(function(opt) {
-            return <option key={opt.value} value={opt.alue}>{opt.text}</option>
+        let options = list.map(function(item) {
+            return <option key={item.id} value={item.name}>{item.name}</option>
         });
         return (options);
     },
 
     getInitialState: function() {
-        console.log('Hops getInitialState: function () {');
+        console.log('Hops getInitialState()');
         return {
             hopList: []
         };
     },
 
     render: function() {
-
-        console.log('Hops render: function () {');
-
-        var hopMap2 = this.state.hopList.map(function (litem) {
-            return (<li key={litem.id}>{litem.name}</li>)
-        });
+        console.log('Hops render()');
 
         var parent = this;
-
         var hopsMap = [];
         // An error is thrown if the recipe is still undefined
         // if(Array.isArray(this.props.hops)) {
@@ -62,7 +59,7 @@ var Hops = React.createClass({
         //         }
         //     });
         // }
-
+ 
         return (
             <div className="panel panel-primary" id="hops">
                 <div className="panel-heading">
@@ -75,14 +72,13 @@ var Hops = React.createClass({
                                 <div className="form-group" id="hops-select">
                                     <div className="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                                         <select className="form-control" onChange={this.handleSelect}>
-                                            {this.renderSelectOptions(selectChoices)}
+                                            {this.renderSelectOptions(this.state.hopList)}
                                         </select>
                                     </div>
                                     <div className="col-lg-2 col-lg-offset-2 col-md-3 col-sm-2 col-sm-offset-2 col-xs-3 col-xs-offset-2">
                                         <button className="btn btn-success" type="button" onClick={this.addClick}>Add</button>
                                     </div>
                                 </div>
-                                
                             </form>
                         </div>
                     </div>
@@ -94,7 +90,10 @@ var Hops = React.createClass({
     componentDidMount: function() {
         console.log('Hops componentDidMount');
         helper.getHopList().then(function(res) {
-            var obj = JSON.parse(res.data);
+            var obj;
+            if(useLocalData === true) obj = res.data;
+            else obj = JSON.parse(res.data);
+            console.log(obj.data);
             this.setState({
                 hopList: obj.data
             })
