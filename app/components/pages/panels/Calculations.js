@@ -91,13 +91,6 @@ var Calculations = React.createClass({
                                         <p className="form-control-static text-center static-border" id="ibu-value">{localStorage.getItem("IBU")}</p>
                                     </div>
                                 </div>
-                                <div className="row" id="calcval-srm">
-                                    <div className="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2">
-                                        <h4 className="text-center"> <span className="label label-info">SRM </span></h4></div>
-                                    <div className="col-lg-4 col-lg-offset-1 col-md-5 col-sm-5">
-                                        <p className="form-control-static text-center static-border" id="srm-value">{localStorage.getItem("SRM")}</p>
-                                    </div>
-                                </div>
                                 <div className="row" id="calcval-abv">
                                     <div className="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2">
                                         <h4 className="text-center"> <span className="label label-info">ABV </span></h4></div>
@@ -239,3 +232,14 @@ var Calculations = React.createClass({
 
 module.exports = Calculations;
 
+/*
+
+                                <div className="row" id="calcval-srm">
+                                    <div className="col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-sm-offset-2">
+                                        <h4 className="text-center"> <span className="label label-info">SRM </span></h4></div>
+                                    <div className="col-lg-4 col-lg-offset-1 col-md-5 col-sm-5">
+                                        <p className="form-control-static text-center static-border" id="srm-value">{localStorage.getItem("SRM")}</p>
+                                    </div>
+                                </div>
+
+*/
