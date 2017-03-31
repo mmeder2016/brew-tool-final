@@ -122,7 +122,6 @@ var RecipeCreate = React.createClass({
     deleteRecipe: function() {
         console.log('RecipeCreate deleteRecipe  () {');
         helper.deleteRecipe(this.state.recipe).then(function(response) {
-            console.log(response);
             this.setState({
                 recipe: response.data
             });
@@ -204,7 +203,7 @@ var RecipeCreate = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
-                        <Calculations recipe={this.state.recipe} calculationChange={this.calculationChange} saveRecipe={this.saveRecipe}/>
+                        <Calculations recipe={this.state.recipe} calculationChange={this.calculationChange} saveRecipe={this.saveRecipe} deleteRecipe={this.deleteRecipe}/>
                     </div>
                 </div>
                 <div className="row" id="ingredients-row">

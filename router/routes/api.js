@@ -157,7 +157,7 @@ module.exports = function(app) {
             if (error) {
                 console.log(error);
             } else {
-                db.User.findOneAndUpdate({ "_id": req.user._id }, { $push: { "recipes": doc._id }  }).exec();
+                db.User.findOneAndUpdate({ "_id": req.user._id }, { $push: { "recipes": doc._id } }).exec();
                 res.json(doc);
             }
         });
@@ -200,7 +200,17 @@ module.exports = function(app) {
 
         Promise.all([recipePromise].concat(hopsPromises, fermentablesPromises, userPromise)).then(function() {
             console.log('All promises complete. Recipe deleted');
-            res.send('Recipe deleted');
+            //res.sendFile(path.join(approot, '/brewtool'));
+            // Adding a new recipe and returning it
+            var recipe = new db.Recipe();
+            recipe.save(function(error, doc) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    db.User.findOneAndUpdate({ "_id": req.user._id }, { $push: { "recipes": doc._id } }).exec();
+                    res.json(doc);
+                }
+            });
         });
     });
 
