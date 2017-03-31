@@ -46,7 +46,7 @@ var Fermentables = React.createClass({
                 if(('removed' in fermentable) === false) {
                     return (
                         <div>
-                            <Fermentable key={fermentable._id} id={fermentable._id} name={fermentable.name} lbs={fermentable.lbs} ozs={fermentable.ozs} deleteFermentable={parent.deleteFermentable} fermentableChange={parent.fermentableChange}/>
+                            <Fermentable key={fermentable._id} _id={fermentable._id} id={fermentable._id} name={fermentable.name} lbs={fermentable.lbs} ozs={fermentable.ozs} deleteFermentable={parent.deleteFermentable} fermentableChange={parent.fermentableChange}/>
                             <hr/>
                         </div>
                     )

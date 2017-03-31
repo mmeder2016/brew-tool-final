@@ -7,8 +7,10 @@ var React = require("react");
 var Hop = React.createClass({
 
     render: function() {
+        console.log('H - this.props._id');
+        console.log(this.props._id);
         return (
-            <div className="form-group">
+            <div key={this.props._id} className="form-group">
                 <div className="col-lg-2 col-md-2 col-sm-2 col-xs-3 hop-input-col-padding">
                     <input id="ozs" value={this.props.ozs} onChange={this.handleChange} className="form-control input-margins" type="text"/>
                 </div>
