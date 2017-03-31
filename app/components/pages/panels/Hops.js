@@ -2,9 +2,10 @@
 /*
     
 */
-import React from 'react';
+var React = require("react");
 
-import Hop from './Hop.js';
+var Hop = require ("./Hop");
+var helper  = require( '../../utils/helpers');
 
 
 const titlePanel = (<h3 className="panel-title">Hops</h3>);
@@ -17,18 +18,51 @@ let selectChoices = [
                         {value:"ipa", text:"ipa"}
                     ];
 
-export default class Hops extends React.Component {
+var Hops = React.createClass({
 
-    addClick(event) {
+    addClick: function(event) {
         console.log('addClick()');
         console.log(event);
-    }
+    },
 
-    handleSelect(event){
+    handleSelect: function(event){
         console.log('handleSelect() - ' + event.target.value);
-    }
+    },
 
-    render() {
+    renderSelectOptions: function(list) {
+        let options = list.map(function(opt) {
+            return <option key={opt.value} value={opt.alue}>{opt.text}</option>
+        });
+        return (options);
+    },
+
+    getInitialState: function() {
+        console.log('Hops getInitialState: function () {');
+        return {
+            hopList: []
+        };
+    },
+
+    render: function() {
+
+        console.log('Hops render: function () {');
+
+        var hopMap2 = this.state.hopList.map(function (litem) {
+            return (<li key={litem.id}>{litem.name}</li>)
+        });
+
+        var parent = this;
+
+        var hopsMap = [];
+        // An error is thrown if the recipe is still undefined
+        // if(Array.isArray(this.props.hops)) {
+        //     hopsMap = this.props.hops.map(function (hop) {
+        //         if(('removed' in hop) === false) {
+        //             return (<Hop key={hop._id} id={hop._id} name={hop.name} lbs={hop.lbs} ozs={hop.ozs} minutes={hop.minutes} alphaAcid={hop.alphaAcid} deleteHop={parent.deleteHop} hopChange={parent.hopChange}/>)
+        //         }
+        //     });
+        // }
+
         return (
             <div className="panel panel-primary" id="hops">
                 <div className="panel-heading">
@@ -48,20 +82,41 @@ export default class Hops extends React.Component {
                                         <button className="btn btn-success" type="button" onClick={this.addClick}>Add</button>
                                     </div>
                                 </div>
-                                <Hop />
+                                
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         );
+    },
+
+    componentDidMount: function() {
+        console.log('Hops componentDidMount');
+        helper.getHopList().then(function(res) {
+            var obj = JSON.parse(res.data);
+            this.setState({
+                hopList: obj.data
+            })
+        }.bind(this));
+    },
+
+    addHop: function (data) {
+        console.log('Hops addNewHop : function () {');
+        this.props.addNewHop('');
+    },
+
+    deleteHop: function(id){
+        console.log('deleteHop: function(){');
+        this.props.deleteHop(id);
+    },
+    
+    hopChange: function(objId, varName, val) {
+        console.log('Hops hopChange : function () {');
+        this.props.hopChange(objId, varName, val);
     }
 
-    renderSelectOptions(list) {
-        let options = list.map(function(opt) {
-            return <option key={opt.value} value={opt.alue}>{opt.text}</option>
-        });
-        return (options);
-    }
-}
+});
+
+module.exports = Hops;
 

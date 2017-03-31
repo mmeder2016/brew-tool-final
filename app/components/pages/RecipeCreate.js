@@ -11,6 +11,17 @@ var helper  = require( '../utils/helpers');
 
 var RecipeCreate = React.createClass({
 
+    componentDidMount: function() {
+        // Get initial recipe.
+        console.log('Main getRecipe : function () {');
+        helper.newRecipe().then(function(response) {
+            //console.log(response);
+            this.setState({
+                recipe: response.data
+            });
+        }.bind(this));
+    },
+
     getInitialState: function() {
         console.log('Main getInitialState: function () {');
         return {
@@ -193,13 +204,15 @@ var RecipeCreate = React.createClass({
             <div className="container">
                 <div className="row">
                     <div className="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+                        <Calculations recipe={this.state.recipe} calculationChange={this.calculationChange} saveRecipe={this.saveRecipe}/>
                     </div>
                 </div>
                 <div className="row" id="ingredients-row">
                     <div className="col-lg-6 col-lg-offset-0 col-md-6">
+                        <Hops hopChange={this.hopChange} addNewHop={this.addNewHop} deleteHop={this.deleteHop} hops={this.state.recipe.hops}/>
                     </div>
                     <div className="col-lg-6 col-md-6">
-                        <Hops hopChange = { this.hopChange } addNewHop = { this.addNewHop } deleteHop = { this.deleteHop } hops = { this.state.recipe.hops }/>
+                        <Fermentables fermentableChange={this.fermentableChange} addNewFermentable={this.addNewFermentable} deleteFermentable={ this.deleteFermentable} fermentables={this.state.recipe.fermentables}/>
                     </div>
                 </div>
             </div>

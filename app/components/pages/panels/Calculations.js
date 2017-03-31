@@ -113,6 +113,11 @@ var Calculations = React.createClass({
         );
     },
 
+    onSaveClick: function (){
+        console.log('Calculations getSRM(){');
+        this.props.saveRecipe();
+    },
+
 
     getOG: function (){
         console.log('Calculations getOG  () {');
