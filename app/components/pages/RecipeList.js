@@ -28,6 +28,16 @@ export default class RecipeList extends React.Component {
                         </div>
                     </div>
                 </div>
+            </div>
+        );
+    }
+}
+
+/*
+
+NOTE: Removed the button from below the panel row, but 
+kept here in case it's desired again.
+
                 <div className="row">
                     <div className="col-lg-1 col-lg-offset-5 col-md-1 col-md-offset-5 col-sm-1 col-sm-offset-5 col-xs-3 col-xs-offset-4">
                         <div className="btn-toolbar">
@@ -37,8 +47,5 @@ export default class RecipeList extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
-        );
-    }
-}
 
+*/
