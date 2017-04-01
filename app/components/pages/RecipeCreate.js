@@ -207,10 +207,12 @@ var RecipeCreate = React.createClass({
                         <Calculations recipe={this.state.recipe} calculationChange={this.calculationChange} saveRecipe={this.saveRecipe}/>
                     </div>
                 </div>
-                <div className="row" id="ingredients-row">
+                <div className="row">
                     <div className="col-lg-10 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
                         <Hops hopChange={this.hopChange} addNewHop={this.addNewHop} deleteHop={this.deleteHop} hops={this.state.recipe.hops}/>
                     </div>
+                </div>
+                <div className="row">
                     <div className="col-lg-10 col-md-10 col-md-offset-1 col-sm-12 col-xs-12">
                         <Fermentables fermentableChange={this.fermentableChange} addNewFermentable={this.addNewFermentable} deleteFermentable={ this.deleteFermentable} fermentables={this.state.recipe.fermentables}/>
                     </div>
