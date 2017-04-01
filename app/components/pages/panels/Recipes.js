@@ -3,13 +3,16 @@
     
 */
 var React = require("react");
+var Router = require("react-router").Router;
+var Route = require("react-router").Route;
+var Link = require("react-router").Link;
 
 // https://github.com/raythree/reactjs-bootstrap-table-demo
 var BootstrapTable = require ('reactjs-bootstrap-table').default;
 
 var helper =require ('../../utils/helpers');
 
-const products = [];
+var products = [];
 
 // change to match model schema as needed
 //
@@ -36,11 +39,9 @@ var Recipes = React.createClass({
 
     addProducts: function() {
         console.log('addProducts: function() {');
-        // console.log(this.props);
         var id = 0;
+        this.products = [];
         if(this.props.userRecipes.recipes) {
-            // console.log('addProducts');
-            // console.log(JSON.stringify(this.props.userRecipes.recipes));
             this.props.userRecipes.recipes.forEach(function(elem){
             id++;
                 products.push({
@@ -54,28 +55,9 @@ var Recipes = React.createClass({
         }
     },
 
-                // <BootstrapTable 
-                //     data={products}
-                //     headers={true}
-                //     select={"single"}
-                //     tableClass={"table table-hover"}
-                //     disableSelectText={true}
-                //     activeClass={"success"}
-                //     bodyHeight={"3em"} 
-                //     resize={{extra: 0, minSize: 50}}
-                //     onRowClicked={this.onRecipeClick} 
-                //     columns={columns}>
-    
-                //     <div style={{margin: "3em", border: "1px solid gray", padding: "1em"}} className="well well-success">
-                //         <p>No recipes found.</p>
-                //         <p>Click Create to start a new recipe.</p>
-                //     </div>
-    
-                // </BootstrapTable>
-                
-
     render: function() {
         this.addProducts();
+        console.log('LENGTH:' + products.length);
         console.log('Recipes RENDER');
         return (
             <div>

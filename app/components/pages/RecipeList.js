@@ -20,7 +20,7 @@ var RecipeList = React.createClass({
     componentDidMount: function(){
         console.log('componentDidMount: function(){');
         helper.getUserRecipeList().then(function(response) {
-            console.log(JSON.stringify(response.data));
+            //console.log(JSON.stringify(response.data));
             this.setState({
                 userRecipes: response.data
             });
@@ -44,15 +44,6 @@ var RecipeList = React.createClass({
                             </div>
                             <div className="panel-body">
                                 <Recipes userRecipes={this.state.userRecipes}/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-1 col-lg-offset-5 col-md-1 col-md-offset-5 col-sm-1 col-sm-offset-5 col-xs-3 col-xs-offset-4">
-                        <div className="btn-toolbar">
-                            <div role="group" className="btn-group">
-                                <button id="DoRecipeCreate" className="btn btn-success" type="button" onClick={this.createClick}>Create a Recipe</button>
                             </div>
                         </div>
                     </div>
