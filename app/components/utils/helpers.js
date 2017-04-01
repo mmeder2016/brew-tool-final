@@ -13,6 +13,14 @@ var helper = {
         });
     },
 
+    getUserRecipeList: function() {
+        console.log('helper getUserRecipeList: function (id) {');
+        return axios({
+            method: "GET",
+            url: "/userrecipelist"
+        });
+    },
+
     getFermentableList: function() {
         console.log('helper getFermentableList: function (id) {');
         return axios({

@@ -2,18 +2,38 @@
 /*
     
 */
-import React from 'react';
-import Recipes from './panels/Recipes.js';
+var React  = require('react');
+var Recipes = require('./panels/Recipes.js');
+var helper  = require('../utils/helpers');
 
 const title = (<span><h2>Recipes</h2> <i>Click one to edit</i></span>);
 
-export default class RecipeList extends React.Component {
+var RecipeList = React.createClass({
+    getInitialState: function() {
+        console.log('Main getInitialState: function () {');
+        return {
+            userRecipes: {}
+        };
+    },
 
-    createClick() {
+    // Runs before render
+    componentDidMount: function(){
+        console.log('componentDidMount: function(){');
+        helper.getUserRecipeList().then(function(response) {
+            //console.log(JSON.stringify(response.data));
+            this.setState({
+                userRecipes: response.data
+            });
+        }.bind(this));
+    },
+
+    createClick: function() {
         console.log('create recipe click');
-    }
+    },
 
-    render() {
+
+    render: function() {
+        console.log('RecipeList RENDER')
         return (
             <div id="RecipeList">
                 <div className="row">
@@ -23,16 +43,7 @@ export default class RecipeList extends React.Component {
                                 <h3 className="panel-title">{title}</h3>
                             </div>
                             <div className="panel-body">
-                                <Recipes/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-1 col-lg-offset-5 col-md-1 col-md-offset-5 col-sm-1 col-sm-offset-5 col-xs-3 col-xs-offset-4">
-                        <div className="btn-toolbar">
-                            <div role="group" className="btn-group">
-                                <button id="DoRecipeCreate" className="btn btn-success" type="button" onClick={this.createClick}>Create a Recipe</button>
+                                <Recipes userRecipes={this.state.userRecipes}/>
                             </div>
                         </div>
                     </div>
@@ -40,5 +51,7 @@ export default class RecipeList extends React.Component {
             </div>
         );
     }
-}
+});
+
+module.exports = RecipeList;
 

@@ -2,29 +2,17 @@
 /*
     
 */
-import React from 'react';
+var React = require("react");
+var Router = require("react-router").Router;
+var Route = require("react-router").Route;
+var Link = require("react-router").Link;
 
 // https://github.com/raythree/reactjs-bootstrap-table-demo
-import BootstrapTable from 'reactjs-bootstrap-table';
+var BootstrapTable = require ('reactjs-bootstrap-table').default;
 
-const products = [];
+var helper =require ('../../utils/helpers');
 
-function addProducts(quantity) {
-  const startId = products.length;
-  for (let i = 0; i < quantity; i++) {
-    const id = startId + i;
-    products.push({
-      recipeName: 'Super Beer #' + id,
-      style: 'Lager #' + id,
-      brewDate: new Date().toLocaleDateString(),
-      id: 'superbeer'+id, 
-      _id: id
-    });
-  }
-}
-
-addProducts(20);
-
+var products = [];
 
 // change to match model schema as needed
 //
@@ -35,30 +23,52 @@ addProducts(20);
 // way to the on click event handler. 
 
  
-let columns = [
+var columns = [
   { name: 'recipeName', display:'Name' },
   { name: 'style', display:'Style' },
   { name: 'brewDate', display:'Brew Date' }
 ]
 
-export default class RecipeList extends React.Component {
+var Recipes = React.createClass({
 
-    onRecipeClick(recipe) {
+    onRecipeClick: function(recipe) {
+        console.log('onRecipeClick: function(recipe) {');
         // NOTE: _id is seen
         console.log(recipe);
-    }
+    },
 
-    render() {
+    addProducts: function() {
+        console.log('addProducts: function() {');
+        var id = 0;
+        this.products = [];
+        if(this.props.userRecipes.recipes) {
+            this.props.userRecipes.recipes.forEach(function(elem){
+            id++;
+                products.push({
+                    recipeName: elem.recipeName,
+                    style: elem.style,
+                    brewDate: elem.brewDate,
+                    id: elem._id, 
+                    _id: id
+                });
+            });
+        }
+    },
+
+    render: function() {
+        this.addProducts();
+        console.log('LENGTH:' + products.length);
+        console.log('Recipes RENDER');
         return (
             <div>
                 <BootstrapTable 
                     data={products}
-                    headers={true}
-                    select={"single"}
-                    tableClass={"table table-hover"}
-                    disableSelectText={true}
-                    activeClass={"success"}
-                    bodyHeight={"3em"} 
+                    headers="true"
+                    select="single"
+                    tableClass="table table-hover"
+                    disableSelectText="true"
+                    activeClass="success"
+                    bodyHeight="3em"
                     resize={{extra: 0, minSize: 50}}
                     onRowClicked={this.onRecipeClick} 
                     columns={columns}>
@@ -72,7 +82,9 @@ export default class RecipeList extends React.Component {
             </div>
         );
     }
-}
+});
+
+module.exports = Recipes;
 
 
 /*

@@ -58,7 +58,7 @@ var Calculations = React.createClass({
                                         <button className="btn btn-success" type="button" onClick={this.onSaveClick}>Save</button>
                                     </div>
                                     <div className="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-xs-offset-2">
-                                        <button className="btn btn-danger" type="button" onClick={this.onClearClick}>Clear</button>
+                                        <button className="btn btn-danger" type="button" onClick={this.onDeleteClick}>Delete Recipe</button>
                                     </div>
                                 </div>
                             </form>
@@ -114,10 +114,14 @@ var Calculations = React.createClass({
     },
 
     onSaveClick: function (){
-        console.log('Calculations getSRM(){');
+        console.log('Calculations onSaveClick: function (){');
         this.props.saveRecipe();
     },
 
+    onDeleteClick: function (){
+        console.log('Calculations onDeleteClick: function (){');
+        this.props.deleteRecipe();
+    },
 
     getOG: function (){
         console.log('Calculations getOG  () {');
