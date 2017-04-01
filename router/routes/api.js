@@ -167,6 +167,21 @@ module.exports = function(app) {
 
     /////////////////////////////////////////////////////////////
     ///////////////////////ROUTES////////////////////////////////
+
+    app.get("/userrecipelist", function(req, res) {
+        console.log('app.get("/userrecipelist", function(req, res) {');
+        db.User.findById(req.user._id)
+            .populate("recipes")
+            .exec(function(error, doc) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log(doc);
+                    res.json(doc);
+                }
+            });
+    });
+
     app.get("/recipe", function(req, res) {
         console.log('app.get("/recipe", function(req, res) {');
         var id = req.body.id;
