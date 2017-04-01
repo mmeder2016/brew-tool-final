@@ -5,7 +5,7 @@
 import React from 'react';
 import Recipes from './panels/Recipes.js';
 
-const title = (<span><h2>Recipes</h2> <i>Click one to edit</i></span>);
+const title = (<span><h2>Recipes</h2></span>);
 
 export default class RecipeList extends React.Component {
 
