@@ -40,8 +40,9 @@ var Recipes = React.createClass({
     addProducts: function() {
         console.log('addProducts: function() {');
         var id = 0;
-        this.products = [];
+        products = [];
         if(this.props.userRecipes.recipes) {
+            console.log('this.props.userRecipes.recipes.length:' + this.props.userRecipes.recipes.length);
             this.props.userRecipes.recipes.forEach(function(elem){
             id++;
                 products.push({
